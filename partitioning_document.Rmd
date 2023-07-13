@@ -16,32 +16,44 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 # Introduction
+Werner
 
 ## Partitioning
+Werner
 
 ## Motivation
+Werner
 
 # Model development
 
 ## Simile
+Sophia
 
 ## R
+Julian
 
 ### List of variables
+Julian
 
 ### Partitioning Fractions
 Wie haben die Lintul Menschen diese Fractions bekommen?
 
-### Simplifications of the model
-
 # Results
 
-##
-
-### Conclusion
-
-### Outlook
-
+## Without Partitioning
+Julian
+## Partitioning
+Julian
+## Partitioning Other Crops
+Julian
+## Partitioning TRANRF
+Sophia
+# Simplifications of the model
+Sophia
+# Conclusion
+Sophia
+# Outlook
+Sophia
 
 ```{r, eval=TRUE, }
 #source("scripts/partitioning.R")
