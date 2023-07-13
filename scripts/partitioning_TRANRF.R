@@ -1,15 +1,15 @@
-partitioning_model <- function(weather_data = "weather_dikopshof_2007.csv",
-                               crop_name = "wheat",
-                               save_csv = TRUE,
-                               ET = 126) {
+partitioning_TRANRF_model <- function(weather_data = "weather_dikopshof_2007.csv",
+                                      TRANRF_section = c(0.3,1.1),
+                                      crop_name = "wheat",
+                                      save_csv = TRUE,
+                                      ET = 126) {
   
-
   setwd(dir = "data")
   fractions <- read.csv2("all_fractions_.csv")
   fractions <- filter(fractions,Crop==crop_name)
   weather <- read.csv(weather_data)
   setwd("..")
-
+  
   Root_fractions <- filter(fractions,Organ=="Roots")
   Stems_fractions <- filter(fractions,Organ=="Stems")
   Leaves_fractions <- filter(fractions,Organ=="Leaves")
@@ -45,6 +45,9 @@ partitioning_model <- function(weather_data = "weather_dikopshof_2007.csv",
   FStems <- numeric(ET)
   FStorageOrgans <- numeric(ET)
   FAll <- numeric(ET)
+  
+  TRANRF <- numeric(ET)
+  froot <- numeric(ET)
   
   # simile flows
   dLAI <- numeric(ET)
@@ -83,6 +86,14 @@ partitioning_model <- function(weather_data = "weather_dikopshof_2007.csv",
     else {
       dD[n-1] <- max(0,(Temperature[n-1]-T_b2)/P_T2) }
     
+    # Drought modification
+    if (DVS[n-1] > TRANRF_section[1] & DVS[n-1] < TRANRF_section[2])
+      TRANRF[n-1] <- 0.3
+    else
+      TRANRF[n-1] <- 1
+    
+    froot[n-1] <- max(1,1/(TRANRF[n-1]+0.5))
+    
     # dW and dW prepoc
     T_e[n-1] <- Temperature[n-1] - T_b
     r_g[n-1] <- T_e[n-1] * r_l
@@ -90,7 +101,7 @@ partitioning_model <- function(weather_data = "weather_dikopshof_2007.csv",
     l_par[n-1] <- Irradiation[n-1] * 0.5 * (1-exp(-k*LAI[n-1]))
     
     if (DVS[n-1] <= 2) {
-      dW[n-1] <- l_par[n-1] * RUE
+      dW[n-1] <- l_par[n-1] * RUE * TRANRF[n-1]
     }
     else {
       dW[n-1] <- 0
@@ -99,8 +110,8 @@ partitioning_model <- function(weather_data = "weather_dikopshof_2007.csv",
     # Fraction partitioning
     Root_frac <- approx(Root_fractions$DVS, Root_fractions$Fraction, xout=DVS[n-1])
     
-    #FRoot[n-1] <- Root_frac$y[1] * froot[n-1]
-    FRoot[n-1] <- Root_frac$y[1]
+    FRoot[n-1] <- Root_frac$y[1] * froot[n-1]
+    #FRoot[n-1] <- Root_frac$y[1]
     fshoot[n-1] <- 1-FRoot[n-1]
     Stems_frac <- approx(Stems_fractions$DVS, Stems_fractions$Fraction, xout=DVS[n-1])
     FStems[n-1] <- fshoot[n-1] * Stems_frac$y[1]

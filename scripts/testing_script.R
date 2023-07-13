@@ -1,9 +1,19 @@
-source("scripts/partitioning.R")
+source("scripts/partitioning_TRANRF.R")
+library(dplyr)
 
 
 
-df_partitioning <- partitioning_model()
-df_partitioning
+# crop_name <- "wheat"
+# setwd(dir = "data")
+# fractions <- read.csv2("all_fractions_.csv") %>%
+#   filter(Crop==crop_name)
+# 
+# setwd("..")
+# fractions
+
+
+df_partitioning_TRANRF <- partitioning_TRANRF_model(TRANRF_section = c(0.7,1.1))
+df_partitioning_TRANRF
 
 setwd(dir = "data")
 partitioning_sml <- read.csv("partitioning_gk.csv")

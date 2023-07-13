@@ -38,6 +38,7 @@ Julian
 ### Partitioning Fractions
 Wie haben die Lintul Menschen diese Fractions bekommen?
 
+keyword legendgroup
 # Results
 
 ## Without Partitioning
