@@ -145,5 +145,3 @@ partitioning_model <- function(weather_data = "weather_dikopshof_2007.csv",
     setwd("..")}
   return(df)
 }
-df <- partitioning_model()
-df
