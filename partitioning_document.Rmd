@@ -2,13 +2,78 @@
 title: "Partitioning Documentation"
 author: "Sophia, Werner, Julian"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: TRUE
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
 
-DiagrammeR graph
+# Introduction
+
+## Partitioning
+
+## Motivation
+
+# Model development
+
+## Simile
+
+## R
+
+### List of variables
+
+### Partitioning Fractions
+Wie haben die Lintul Menschen diese Fractions bekommen?
+
+### Simplifications of the model
+
+# Results
+
+##
+
+### Conclusion
+
+### Outlook
+
+
+```{r, eval=TRUE, }
+#source("scripts/partitioning.R")
+
+#df <- partitioning_model()
+#df
+
+plot(1)
+```
+
+
+fkdkfjösdkfjöaskdfjs
+
+
+k
+kk
+k
+
+k
+k
+
+
+
+
+k
+
+k
+
+
+
+
+
+
+
+in Figure \ref{fig:figs} we see examples of plotting in R.
