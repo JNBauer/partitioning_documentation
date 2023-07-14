@@ -11,6 +11,7 @@ library(dplyr)
 # setwd("..")
 # fractions
 
+x = 1 * 1
 
 df_partitioning_TRANRF <- partitioning_TRANRF_model(TRANRF_section = c(0.7,1.1))
 df_partitioning_TRANRF
