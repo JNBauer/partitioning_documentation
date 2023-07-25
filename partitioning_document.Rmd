@@ -4,10 +4,11 @@ author: "Sophia, Werner, Julian"
 date: "`r Sys.Date()`"
 output:
   html_document:
+    number_sections: true
     toc: true
     toc_float:
       collapsed: false
-      smooth_scroll: TRUE
+      smooth_scroll: true
 ---
 
 ```{r setup, include=FALSE}
@@ -29,8 +30,29 @@ Werner
 ## Simile
 Sophia
 
-## R
-Julian
+## R Julian
+
+In addition to the Simile models, we have also created the same models in R again.
+These have the same model components and also the same input values as the models in Simile.
+Our main motivation behind the R models was to avoid the very time-consuming drawing of the organ fractions.
+By using R, we could read the data directly from the table and were not dependent on an intermediate medium such as the Simile graphs.
+While Simile is operated entirely via a graphical user interface, our R model is based purely on a line-based script.
+This made it sometimes difficult to keep an overview, because the characteristic components of Simile were not directly visible in the R code. Nevertheless, the model is also based on factors, compartments and flows that have to be defined at the beginning.
+Here the numeric() function is useful to create vectors for the variables that change during the simulation.
+For each of these variables, a vector is created with the length of the planned timesteps.
+These vectors are then exchanged with the newly calculated data points during the simulation.
+For constant factors, variables are defined with the corresponding constant value at the beginning.
+For compartment variables, the first digit in the associated vector is overwritten with the start value of the compartment from Simile.
+
+  - loop method
+  - indexing
+  - approx()
+- Unterschiede zu Simile
+- Possible extensions
+  - probabilistic uncertainty
+  - Monte Carlo simulation
+  - Mehr Änderungen im Funktionsinput
+- nice backup by inline code
 
 ### List of variables
 Julian
@@ -42,17 +64,22 @@ Wie haben die Lintul Menschen diese Fractions bekommen?
 
 ## Without Partitioning
 Julian
+
 ## Partitioning
 Julian
+
 ## Partitioning Other Crops
 Julian
+
 ## Partitioning TRANRF
 Sophia
 
 # Simplifications of the model
 Sophia
+
 # Conclusion
 Sophia
+
 # Outlook
 Sophia
 

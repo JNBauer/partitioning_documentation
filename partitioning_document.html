@@ -11,7 +11,7 @@
 
 <meta name="author" content="Sophia, Werner, Julian" />
 
-<meta name="date" content="2023-07-13" />
+<meta name="date" content="2023-07-25" />
 
 <title>Partitioning Documentation</title>
 
@@ -1493,64 +1493,110 @@ font-size: 0.95em;
 
 <h1 class="title toc-ignore">Partitioning Documentation</h1>
 <h4 class="author">Sophia, Werner, Julian</h4>
-<h4 class="date">2023-07-13</h4>
+<h4 class="date">2023-07-25</h4>
 
 </div>
 
 
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
 <p>Werner</p>
-<div id="partitioning" class="section level2">
-<h2>Partitioning</h2>
-<p>Werner</p>
-</div>
-<div id="motivation" class="section level2">
-<h2>Motivation</h2>
+<div id="partitioning" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Partitioning</h2>
 <p>Werner</p>
 </div>
+<div id="motivation" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Motivation</h2>
+<p>Werner</p>
 </div>
-<div id="model-development" class="section level1">
-<h1>Model development</h1>
-<div id="simile" class="section level2">
-<h2>Simile</h2>
+</div>
+<div id="model-development" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Model development</h1>
+<div id="simile" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Simile</h2>
 <p>Sophia</p>
 </div>
-<div id="r" class="section level2">
-<h2>R</h2>
-<p>Julian</p>
-<div id="list-of-variables" class="section level3">
-<h3>List of variables</h3>
+<div id="r-julian" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> R Julian</h2>
+<p>In addition to the Simile models, we have also created the same
+models in R again. These have the same model components and also the
+same input values as the models in Simile. Our main motivation behind
+the R models was to avoid the very time-consuming drawing of the organ
+fractions. By using R, we could read the data directly from the table
+and were not dependent on an intermediate medium such as the Simile
+graphs. While Simile is operated entirely via a graphical user
+interface, our R model is based purely on a line-based script. This made
+it sometimes difficult to keep an overview, because the characteristic
+components of Simile were not directly visible in the R code.
+Nevertheless, the model is also based on factors, compartments and flows
+that have to be defined at the beginning. Here the numeric() function is
+useful to create vectors for the variables that change during the
+simulation. For each of these variables, a vector is created with the
+length of the planned timesteps. These vectors are then exchanged with
+the newly calculated data points during the simulation. For constant
+factors, variables are defined with the corresponding constant value at
+the beginning. For compartment variables, the first digit in the
+associated vector is overwritten with the start value of the compartment
+from Simile.</p>
+<ul>
+<li>loop method</li>
+<li>indexing</li>
+<li>approx()</li>
+<li>Unterschiede zu Simile</li>
+<li>Possible extensions
+<ul>
+<li>probabilistic uncertainty</li>
+<li>Monte Carlo simulation</li>
+<li>Mehr Änderungen im Funktionsinput</li>
+</ul></li>
+<li>nice backup by inline code</li>
+</ul>
+<div id="list-of-variables" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> List of
+variables</h3>
 <p>Julian</p>
 </div>
-<div id="partitioning-fractions" class="section level3">
-<h3>Partitioning Fractions</h3>
+<div id="partitioning-fractions" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Partitioning
+Fractions</h3>
 <p>Wie haben die Lintul Menschen diese Fractions bekommen?</p>
 </div>
 </div>
 </div>
-<div id="results" class="section level1">
-<h1>Results</h1>
-<div id="without-partitioning" class="section level2">
-<h2>Without Partitioning</h2>
-<p>Julian ## Partitioning Julian ## Partitioning Other Crops Julian ##
-Partitioning TRANRF Sophia # Simplifications of the model Sophia #
-Conclusion Sophia # Outlook Sophia</p>
-<pre class="r"><code>#source(&quot;scripts/partitioning.R&quot;)
-
-#df &lt;- partitioning_model()
-#df
-
-plot(1)</code></pre>
-<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUAAAAPACAMAAADDuCPrAAAAyVBMVEUAAAAAADoAAGYAOjoAOmYAOpAAZmYAZrY6AAA6OgA6Ojo6OmY6ZmY6ZpA6ZrY6kJA6kLY6kNtmAABmOgBmOjpmZjpmZmZmZpBmkLZmkNtmtttmtv+QOgCQZjqQZmaQkDqQkLaQtraQttuQtv+Q2/+2ZgC2Zjq2kDq2kGa2tpC2tra2ttu225C227a229u22/+2///bkDrbkGbbtmbbtpDbtrbb25Db27bb29vb2//b/7bb////tmb/25D/27b/29v//7b//9v////UyaRKAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAbtUlEQVR4nO3dfWPTZoKvYYWhS0qHngPMZJgCs9tOw9D0LDRDu6RLCNjf/0Mdyc6LSWJR/fwQ+VGu6w8S27HR48h3JOvFzRyASDP2BADUSkABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKENrugDYAxZRPVPFHLGjsZxuYluKNKv2Aa8x+O/j53dA7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" width="672" /></p>
-<p>fkdkfjösdkfjöaskdfjs</p>
-<p>k kk k</p>
-<p>k k</p>
-<p>k</p>
-<p>k</p>
-<p>in Figure <span class="math inline">\(\ref{fig:figs}\)</span> we see
-examples of plotting in R.</p>
+<div id="results" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Results</h1>
+<div id="without-partitioning" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Without
+Partitioning</h2>
+<p>Julian</p>
 </div>
+<div id="partitioning-1" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Partitioning</h2>
+<p>Julian</p>
+</div>
+<div id="partitioning-other-crops" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Partitioning Other
+Crops</h2>
+<p>Julian</p>
+</div>
+<div id="partitioning-tranrf" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Partitioning
+TRANRF</h2>
+<p>Sophia</p>
+</div>
+</div>
+<div id="simplifications-of-the-model" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Simplifications of the
+model</h1>
+<p>Sophia</p>
+</div>
+<div id="conclusion" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Conclusion</h1>
+<p>Sophia</p>
+</div>
+<div id="outlook" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Outlook</h1>
+<p>Sophia</p>
 </div>
 
 
