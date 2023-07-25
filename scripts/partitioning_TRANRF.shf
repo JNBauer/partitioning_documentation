@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="shf1.xsl"?>
+<shf simile_version="6.12">
+<external x="2794" y="246" w="2432" h="725"/>
+<std_tool_layout left_panel_width="375" run_control_height="255"/>
+<notebook>
+  <page caption="Page 1">
+    <panedwindow orient="vertical">
+      <pane>
+         <container type="tabular11510">
+          <![CDATA[{/DVS /W /dW /LAI /WRoots /WLeaves /WStems /WStorageOrgans /FRoot {/FLeaves
+} /FStems /FStorageOrgans /FAll /TRANRF /froot /fshoot} {rows cols cols cols} {-1 {General 4 0} 0 {General 4 0} 10 {General 4 0} 1 {General 4 0} 2 {General 4 0} 11 {General 4 0} 3 {General 4 0} 12 {General 4 0} 4 {General 4 0} 13 {General 4 0} 5 {General 4 0} 14 {General 4 0} 15 {General 4 0} 6 {General 4 0} 7 {General 4 0} 8 {General 4 0} 9 {General 4 0}} 1 {{0 -75} {5 -47} {6 -52} {7 -49} {8 -95} {10 -47} {11 -44} {12 -90} {14 -49} {15 -43}} {{0 -36} {1 -21}}]]>
+        </container>
+      </pane>
+    </panedwindow>
+  </page>
+  <page caption="Page 2">
+    <panedwindow orient="vertical">
+      <pane>
+      </pane>
+    </panedwindow>
+  </page>
+  <page caption="Page 3">
+    <panedwindow orient="vertical">
+      <pane>
+      </pane>
+    </panedwindow>
+  </page>
+  <page caption="Page 4">
+    <panedwindow orient="vertical">
+      <pane>
+      </pane>
+    </panedwindow>
+  </page>
+</notebook>
+</shf>

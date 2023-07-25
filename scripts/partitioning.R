@@ -1,9 +1,9 @@
-partitioning_model <- function(weather_data = "weather_dikopshof_2007.csv",
+partitioning <- function(weather_data = "weather_dikopshof_2007.csv",
                                crop_name = "wheat",
                                save_csv = TRUE,
-                               ET = 126) {
+                               ET = 125) {
   
-
+  require(dplyr)
   setwd(dir = "data")
   fractions <- read.csv2("all_fractions_.csv")
   fractions <- filter(fractions,Crop==crop_name)
@@ -14,6 +14,9 @@ partitioning_model <- function(weather_data = "weather_dikopshof_2007.csv",
   Stems_fractions <- filter(fractions,Organ=="Stems")
   Leaves_fractions <- filter(fractions,Organ=="Leaves")
   StorageOrgans_fractions <- filter(fractions,Organ=="StorageOrgans")
+  
+  ETmod <- ET
+  ET <- ET + 1
   
   # constant factors
   T_b <- 2
@@ -31,9 +34,9 @@ partitioning_model <- function(weather_data = "weather_dikopshof_2007.csv",
   
   # simile factors
   Temperature <- weather$Tmean..C.
-  Temperature <- Temperature[SeedingDate:(ET+SeedingDate-1)]
+  Temperature <- Temperature[SeedingDate:(ETmod+SeedingDate)]
   Irradiation <- weather$Radiation..MJ.m2.
-  Irradiation <- Irradiation[SeedingDate:(ET+SeedingDate-1)]
+  Irradiation <- Irradiation[SeedingDate:(ETmod+SeedingDate)]
   
   T_e <- numeric(ET)
   r_g <- numeric(ET)
@@ -74,6 +77,8 @@ partitioning_model <- function(weather_data = "weather_dikopshof_2007.csv",
   WLeaves[1] <- 3.25
   WStems[1] <- 1.25
   WStorageOrgans[1] <- 0
+  
+  Timestep <- seq(0,ETmod)
   
   for (n in 2:ET)
   {
@@ -138,10 +143,11 @@ partitioning_model <- function(weather_data = "weather_dikopshof_2007.csv",
   }
   
   #df <- data.frame(DVS,LAI, W, WRoots, WLeaves, WStems, WStorageOrgans, dWRoots, dWLeaves, dWStems, dWStorageOrgans, FRoot, FLeaves, FStems, FStorageOrgans, fshoot, FAll, Temperature, Irradiation)
-  df <- data.frame(DVS, W, dW, LAI, WRoots,WLeaves, WStems, WStorageOrgans, FRoot, FLeaves, FStems, FStorageOrgans)
-  filename <- paste("partitioning_",crop_name,".csv", sep = "")
+  df <- data.frame(Timestep, DVS, W, dW, LAI, WRoots,WLeaves, WStems, WStorageOrgans, FRoot, FLeaves, FStems, FStorageOrgans,FAll)
+  filename <- paste("R_partitioning_",crop_name,".csv", sep = "")
+  
   if (save_csv == TRUE) {
-    setwd("data")
+    setwd("results")
     write.csv2(df,filename)
     setwd("..")}
   return(df)

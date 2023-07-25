@@ -56,37 +56,6 @@ Sophia
 # Outlook
 Sophia
 
-```{r, eval=TRUE, }
-#source("scripts/partitioning.R")
-
-#df <- partitioning_model()
-#df
-
-plot(1)
-```
-
-
-üüüüüüüüüüüüüüääääääääääääääääääääääääääääääööööööööööööööööö
-
-
-k
-kk
-k
-
-k
-k
 
 
 
-
-k
-
-k
-
-
-
-
-
-
-
-in Figure \ref{fig:figs} we see examples of plotting in R.

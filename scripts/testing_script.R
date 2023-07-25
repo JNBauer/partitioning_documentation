@@ -1,36 +1,27 @@
+source("scripts/no_partitioning.R")
 source("scripts/partitioning.R")
+source("scripts/partitioning_TRANRF.R")
+source("scripts/utils.R")
 
 
+R_no_partitioning <- no_partitioning()
+#df_no_partitioning
+R_partitioning <- partitioning()
+#df_partitioning
+R_partitioning_TRANRF <- partitioning_TRANRF_model()
+#df_partitioning_TRANRF
 
-df_partitioning <- partitioning_model()
-df_partitioning
-
-setwd(dir = "data")
-partitioning_sml <- read.csv("partitioning_gk.csv")
+setwd(dir = "results")
+Simile_no_partitioning <- read.csv("Simile_no_partitioning.csv")
+Simile_partitioning <- read.csv("Simile_partitioning_wheat.csv")
+Simile_partitioning_TRANRF <- read.csv("Simile_partitioning_TRANRF_wheat.csv")
 setwd("..")
-partitioning_sml
 
 
+Simile_no_partitioning == R_no_partitioning
 
-df_comp <- function(df1,df2) {
-  
-  len_df <- min(nrow(df1),nrow(df2))
-  df1 <- df1[1:len_df,]
-  df2 <- df2[1:len_df,]
-  
-  comp <- df1$LAI-df2$LAI
-  df <- data.frame(DVS=df1$DVS,
-                   LAI1=df1$LAI,
-                   LAI2=df2$LAI,
-                   Diff=comp)
-  ggplot(df, aes(x=DVS,y=Diff)) +
-    geom_line()
-  
-  return(df)
-}
 
-comp <- df_comp(df_partitioning,partitioning_sml)
+comp <- df_comp(Simile_partitioning_TRANRF,R_partitioning_TRANRF)
 comp
 
-ggplot(comp, aes(x=DVS,y=Diff)) +
-  geom_point()
+
