@@ -11,7 +11,7 @@
 
 <meta name="author" content="Sophia, Werner, Julian" />
 
-<meta name="date" content="2023-07-25" />
+<meta name="date" content="2023-07-26" />
 
 <title>Partitioning Documentation</title>
 
@@ -1493,7 +1493,7 @@ font-size: 0.95em;
 
 <h1 class="title toc-ignore">Partitioning Documentation</h1>
 <h4 class="author">Sophia, Werner, Julian</h4>
-<h4 class="date">2023-07-25</h4>
+<h4 class="date">2023-07-26</h4>
 
 </div>
 
@@ -1516,8 +1516,8 @@ font-size: 0.95em;
 <h2><span class="header-section-number">2.1</span> Simile</h2>
 <p>Sophia</p>
 </div>
-<div id="r-julian" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> R Julian</h2>
+<div id="r" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> R</h2>
 <p>In addition to the Simile models, we have also created the same
 models in R again. These have the same model components and also the
 same input values as the models in Simile. Our main motivation behind
@@ -1538,11 +1538,51 @@ factors, variables are defined with the corresponding constant value at
 the beginning. For compartment variables, the first digit in the
 associated vector is overwritten with the start value of the compartment
 from Simile.</p>
+<p>After all model variables have been defined and prepared, the actual
+calculation of the model can begin. This works via a loop with a number
+of repetitions that corresponds to the desired timesteps of the
+simulation. Within the loop are the actual calculations of the model,
+which are performed one after the other, building on each other. It is
+important to keep to the correct order for the calculation of the
+individual variables, so that variables that are later calculated in the
+loop are not part of earlier calculations for other variables. The
+calculations and also the updating of the individual vectors are
+strongly based on indexing. In the current iteration (n), the values of
+the previous iteration (n-1) are exchanged with the newly calculated
+value. The formulas used in R are very similar to those in the Simile
+Model and only the syntax for if and else conditions had to be adapted.
+To calculate the compartments as in Simile, the flow rates at the end of
+each iteration are added to their corresponding variable, e.g. W[n]
+&lt;- dW[n-1] + W[n-1], and taken as the basis for the next iteration.
+After the last iteration has run, all the desired vectors can be merged
+into one data frame, which can then be used in different ways.</p>
+<p>The implementation of the fractions directly from the table is one of
+the main differences to the simile models. The mechanism behind this can
+be divided into two steps. In the first step, the relevant fractions are
+filtered out of the entire table. The filter is based on the input in
+the model function where the desired crop can be specified. The default
+input is wheat, for which we have also drawn the fractions in Simile. In
+the second step, the data from the filtered table is used to interpolate
+a value that corresponds to the respective DVS value. For this, the
+approx() function was a great help, as it is able to interpolate for a
+value within a dataframe.</p>
+<p>Our goal for the R models was to achieve results as close as possible
+to our simile results. In principle, the visible calculations of both
+models are the same, but nevertheless there are slight deviations. One
+influencing factor here is the different rounding of the two programmes.
+Even if the same numbers are displayed on the surface, it is possible
+that other numbers are calculated internally.</p>
+<p>We have written a very simple function with which we can examine the
+results of two data frames and their difference. We found that the
+difference was smallest for the no_partitioning model and increased for
+the more complex models. A second source for differences between the
+models are also slight inaccuracies when drawing in Simile. To examine
+the differences between the two models more closely, there would have
+been another possibility. Simile allows to export the drawn graphs as a
+.csv table. These could then have been used as input in the R model for
+the fractions. The R model would still have interpolated from this data,
+but anomalies in the drawn data would have been represented.</p>
 <ul>
-<li>loop method</li>
-<li>indexing</li>
-<li>approx()</li>
-<li>Unterschiede zu Simile</li>
 <li>Possible extensions
 <ul>
 <li>probabilistic uncertainty</li>
@@ -1551,16 +1591,16 @@ from Simile.</p>
 </ul></li>
 <li>nice backup by inline code</li>
 </ul>
-<div id="list-of-variables" class="section level3" number="2.2.1">
-<h3><span class="header-section-number">2.2.1</span> List of
-variables</h3>
+</div>
+<div id="list-of-variables" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> List of
+variables</h2>
 <p>Julian</p>
 </div>
-<div id="partitioning-fractions" class="section level3" number="2.2.2">
-<h3><span class="header-section-number">2.2.2</span> Partitioning
-Fractions</h3>
+<div id="partitioning-fractions" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Partitioning
+Fractions</h2>
 <p>Wie haben die Lintul Menschen diese Fractions bekommen?</p>
-</div>
 </div>
 </div>
 <div id="results" class="section level1" number="3">
