@@ -21,6 +21,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Partitioning refers to the distribution of certain resources, f. ex macro- and micro nutrients, between the plant organs (these comprise plant roots, leaves, stems and the plants storage organs). This distribution is highly dependent and correlating with the plants development stage (*DVS*) which differs uniquely depending on the crop species. If a resource is highly accessible and not taken up completely by the plant organs, the resource can be reserved and later be relocated again.
 
+
+```{r}
+knitr::include_graphics("Partioning Visual.jpg")
+```
+
 ## Motivation/ Background
 
 Climate change leads to changing environmental conditions for crops, those crops will respond to those changes with shifting biomass partitioning patters to obtain the most limiting resource, in f.ex months of droughts.
