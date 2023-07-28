@@ -11,7 +11,7 @@
 
 <meta name="author" content="Sophia, Werner, Julian" />
 
-<meta name="date" content="2023-07-26" />
+<meta name="date" content="2023-07-28" />
 
 <title>Partitioning Documentation</title>
 
@@ -1493,31 +1493,127 @@ font-size: 0.95em;
 
 <h1 class="title toc-ignore">Partitioning Documentation</h1>
 <h4 class="author">Sophia, Werner, Julian</h4>
-<h4 class="date">2023-07-26</h4>
+<h4 class="date">2023-07-28</h4>
 
 </div>
 
 
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>Werner</p>
 <div id="partitioning" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Partitioning</h2>
-<p>Werner</p>
+<p>Partitioning refers to the distribution of certain resources, f. ex
+macro- and micro nutrients, between the plant organs (these comprise
+plant roots, leaves, stems and the plants storage organs). This
+distribution is highly dependent and correlating with the plants
+development stage (<em>DVS</em>) which differs uniquely depending on the
+crop species. If a resource is highly accessible and not taken up
+completely by the plant organs, the resource can be reserved and later
+be relocated again.</p>
 </div>
-<div id="motivation" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Motivation</h2>
-<p>Werner</p>
+<div id="motivation-background" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Motivation/
+Background</h2>
+<p>Climate change leads to changing environmental conditions for crops,
+those crops will respond to those changes with shifting biomass
+partitioning patters to obtain the most limiting resource, in f.ex
+months of droughts.</p>
+<p>Furthermore, the ability to predict biomass partitioning patterns of
+crops in direct competition with one another has the potential to be a
+valuable tool in predicting the outcome of crop–weed competition. In
+general plants facing limited resource supply belowground will shift
+biomass partitioning towards more root and less shoot production whereas
+plants competing for light will shift towards more shoot and less root
+production.</p>
+<p>Understanding partitioning patterns in crop production is an
+important goal to maximize a crops growth rate which leads to maximized
+biomass and therefore maximized yield.</p>
 </div>
 </div>
-<div id="model-development" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Model development</h1>
-<div id="simile" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Simile</h2>
-<p>Sophia</p>
+<div id="goal" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Goal</h1>
+<p>We develop a simplified partitioning model to calculate and visualize
+optimal allocation of resources between the different plant organs. We
+extend the model by adding a transpiration reducing factor
+(<em>TRANRF</em>) to review the model under the influence of drought
+stress. We put emphasis on the impact of the individuality of crop
+species by reviewing and visualizing partitioning patterns in different
+crop types.</p>
 </div>
-<div id="r" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> R</h2>
+<div id="model-development" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Model development</h1>
+<div id="simile" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Simile</h2>
+<div id="basemodel" class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Basemodel</h3>
+<p>A simplified growth and LAI model was used as the base model, where
+after LAI reaching a value of 0.7, half of the growth rate (dW) is added
+to the fraction of the leaves. dLAI= if LAI&lt; 0.7 then r_g<em>LAI else
+s_new</em>p_l*dW</p>
+</div>
+<div id="dvs" class="section level3" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> DVS</h3>
+<p>Due to the fact our model is build for spring wheat in temperate
+climate, we set the seeding date to 100, the beginning of April and used
+weather data of Dikopshof, west Germany, from 2007. This gave realistic
+mean values for temperature and irradiation. In Addition, our model was
+dependent on the development state index (DVS) of the plant. The DVS is
+the ratio of the daily average temperature (Temperature) minus the base
+temperature (T_b) to the thermal time requirement (P_T) at a given point
+in the development. The base temperature and the thermal time
+requirement can differ between the phase before and after anthesis. dD=
+if DVS &lt; 1 then max(0,(Temperature-T_b1)/P_T1) else
+max(0,(Temperature-T_b2)/P_T2) In order to stop growth rate, after
+maturity is reached, dW is set to 0 after DVS =2. dW= if DVS &lt;= 2
+then RUE*I_par else 0</p>
+</div>
+<div id="partitioning-1" class="section level3" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> Partitioning</h3>
+<p>To add partitioning of the different plant growth organs, the
+fraction table for wheat was used. For each organ (Froot, FStems,
+FLeaves, FStorageOragan) a variable is created and multiplied by a
+sketched graph. The curve consists of the defined points by the table
+and the interpolated points in the area between them. It is known that
+all fractions together always add up to one and every fraction is not
+negative. FRoot + FStems + Fleaves + FStorageOrgans = 1 In order to
+ensure that, the variable FShoot is created, to divide the fractions
+into underground and aboveground organs. FShoot= 1-Froot This is how to
+use only three graphs and calculate the fourth fraction from the other
+three. FStorageOrgans= FShoot - (FStems + FLeaves)) To calculate the
+weight of the different organs (WLeaves, WStems, WRoots,WStoragOrgans)
+the growth rate dW is multiplied by the Fraction of each organ dWRoots=
+dW * Froot dWLeaves = dW* FLeaves dWStems= dw* FStems dWStorageOrgans=
+dw* FStorageOrgans</p>
+</div>
+<div id="leaf-senescence" class="section level3" number="3.1.4">
+<h3><span class="header-section-number">3.1.4</span> Leaf
+Senescence</h3>
+<p>In this model, senescence is built into the LAI, where the LAI
+decreases from DVS 1. Also the LAI reacts on change of the growth rate
+of the Leaves Fraction. dLAI= if LAI&lt; 0.7 and DVS &lt;0.3 then
+r_g<em>LAI elseif DVS &lt;1 then s_new</em>dWLeaves else s_new *
+dWLeaves - 0.03*LAI In general, exchanging the constant leaf
+partitioning p_l with the simulated leaf growth rate, allows the model a
+more realistic reflection on the growth behavior of the plant.</p>
+</div>
+<div id="modifying-root-partitioning-due-to-drought" class="section level3" number="3.1.5">
+<h3><span class="header-section-number">3.1.5</span> Modifying root
+partitioning due to drought</h3>
+<p>To show how partitioning behaves under drought stress, we add the
+variable TRANRF. The TRANRF is set to a fixed value of 0.3 for a certain
+period during development. TRANRF= if 0.2 &lt; DVS and DVS &lt; 1.2 then
+0.3 else 1 The TRANRF has an impact on the total growth rate dW, as well
+as the root Fraction. For this, the variable froot was added which is
+leading to an increasement of the root fraction and a decreasement of
+the other organ fractions. froot= max(1,1/(TRANRF+0.5))</p>
+<p>###Model run and evaluation The base model was compared to the model
+with implemented partitioning. Also the model was transferred to other
+crop species. The partitioning behavior was investigated under normal
+conditions, as well as under drought stress.</p>
+</div>
+</div>
+<div id="r" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> R</h2>
 <p>In addition to the Simile models, we have also created the same
 models in R again. These have the same model components and also the
 same input values as the models in Simile. Our main motivation behind
@@ -1592,51 +1688,109 @@ but anomalies in the drawn data would have been represented.</p>
 <li>nice backup by inline code</li>
 </ul>
 </div>
-<div id="list-of-variables" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> List of
+<div id="list-of-variables" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> List of
 variables</h2>
 <p>Julian</p>
 </div>
-<div id="partitioning-fractions" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Partitioning
+<div id="partitioning-fractions" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Partitioning
 Fractions</h2>
 <p>Wie haben die Lintul Menschen diese Fractions bekommen?</p>
 </div>
 </div>
-<div id="results" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Results</h1>
-<div id="without-partitioning" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Without
+<div id="results" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Results</h1>
+<div id="without-partitioning" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Without
 Partitioning</h2>
 <p>Julian</p>
 </div>
-<div id="partitioning-1" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Partitioning</h2>
+<div id="partitioning-2" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Partitioning</h2>
 <p>Julian</p>
 </div>
-<div id="partitioning-other-crops" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Partitioning Other
+<div id="partitioning-other-crops" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Partitioning Other
 Crops</h2>
 <p>Julian</p>
 </div>
-<div id="partitioning-tranrf" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Partitioning
+<div id="partitioning-tranrf" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Partitioning
 TRANRF</h2>
 <p>Sophia</p>
 </div>
 </div>
-<div id="simplifications-of-the-model" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Simplifications of the
-model</h1>
-<p>Sophia</p>
+<div id="simplification-of-the-model" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Simplification of the
+Model</h1>
+<p>The influence of drought stress was modeled with the TRANRF. Due to
+simplification, the TRANRF was a fixed value and not calculated by
+formula. This had the impact, that growth and partitioning was effected
+by drought, as long as the TRANRF was applied. After this, growth and
+partitioning is acting normal again (please see results).</p>
 </div>
-<div id="conclusion" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Conclusion</h1>
-<p>Sophia</p>
+<div id="conclusion" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Conclusion</h1>
+<p>Partitioning of biomass the process by which plants distribute their
+energy amongst their different organs. Our partitioning model reveals
+how spring wheat allocates its biomass into leaves, roots, stems and
+storage organs. Therefore it gives a more accurate representation of the
+growth behavior of the plant, in contrast to the base model, where a
+fixed fraction (p_l) is given only into the leaves. This results in a
+slightly decreasing LAI, due to remaining constant leaf partitioning
+factor (p_l) and also an increased biomass. Our model in contrast allows
+more realistic LAI values with about 6 at time of flowering (DVS=1).
+Furthermore the partitioning model gives an impression of how much
+energy the plant invests into the respective organs at different times
+of development. Whereas until the time of flowering (DVS&lt;1) the roots
+and the leaves fraction are finally decreasing, the fraction of the
+stems are increasing. This is possibly due to the stem elongation. After
+flowering is reached, all the energy is put into the storage organs.
+Under optimal partitioning theory, plants preferentially allocate
+biomass to acquire the resource that most limits growth. Here, drought
+stress was used as a limiting factor. Plants show certain changes in
+their growth patterns and physiological process to cope with the effects
+of drought stress. Our partitioning model showed an influence on the
+total biomass, as well as changing the ratio of the individual organs to
+each other. Whereas the total biomass and within the Harvest Index are
+reduced, the fraction of the roots are increasing. This leads to a
+higher root to shoot ratio under drought conditions. Such a strategy
+enables the plant to improve water absorption capacity and lower the
+biomass above ground to reduce transpiration and water loss.
+Nevertheless, the partitioning model has a certain weaknesses. Thus, the
+drought stress is only taken into account when TRANRF is applied at the
+specific period during development. This has the effect that earlier
+drought stress (DVS&lt;1) does not concern later development (DVS&gt;1),
+after setting TRANRF back to 1. The storage organs develop normal and
+showing only a lower biomass due to lower amount of leaves and stems.
+Eventually the model is suitable to show certain trends in how the plant
+changes its partitioning under drought stress. The partitioning model
+was created for spring wheat in temperate climate. So with constant
+variables, care must be taken when applying the model to different
+species. If variables such as temperature or thermal time requirement
+are not adjusted, the results will vary greatly depending on the crop
+species.</p>
 </div>
-<div id="outlook" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Outlook</h1>
-<p>Sophia</p>
+<div id="outlook" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Outlook</h1>
+<p>The process of partitioning depends on a complex interaction of
+multiple factors, such as abiotic, biotic stress, phytohormones or
+genotype. In order to obtain more realistic results, additional factors
+could be included in the model. One major improvement would be the
+calculation of the TRANRF, rather than taking a fixed and constant
+value. Therefore the potential transpirative demand (PTRAN) as well as
+actual transpiration TRAN can be quantified. Since water availability of
+a crop depends on Rooting depth and density, as well as maximum root
+uptake rate and soil hydraulic conductivity. Also interesting would be
+to see how the plant allocates various nutrients into different organs.
+The seasonal patterns of nitrogen uptake could be considered, as
+nitrogen stress can have an impact on allocation patterns of
+plants.<br />
+In addition, the model can be adapt specifically to various crops and
+their growing demands. So the different location factors, such as
+temperature or irradiation can be adapted. According to annual and
+perennial plants it is crucial to adjust the vegetation period.</p>
 </div>
 
 
