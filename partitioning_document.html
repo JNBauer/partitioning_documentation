@@ -4087,15 +4087,15 @@ interface, our R model is based purely on a line-based script. This made
 it sometimes difficult to keep an overview, because the characteristic
 components of Simile were not directly visible in the R code.
 Nevertheless, the model is also based on factors, compartments and flows
-that have to be defined at the beginning. Here the numeric() function is
-useful to create vectors for the variables that change during the
-simulation. For each of these variables, a vector is created with the
-length of the planned timesteps. These vectors are then exchanged with
-the newly calculated data points during the simulation. For constant
-factors, variables are defined with the corresponding constant value at
-the beginning. For compartment variables, the first digit in the
-associated vector is overwritten with the start value of the compartment
-from Simile.</p>
+that have to be defined at the beginning. Here the
+<code>numeric()</code> function is useful to create vectors for the
+variables that change during the simulation. For each of these
+variables, a vector is created with the length of the planned timesteps.
+These vectors are then exchanged with the newly calculated data points
+during the simulation. For constant factors, variables are defined with
+the corresponding constant value at the beginning. For compartment
+variables, the first digit in the associated vector is overwritten with
+the start value of the compartment from Simile.</p>
 <p>After all model variables have been defined and prepared, the actual
 calculation of the model can begin. This works via a loop with a number
 of repetitions that corresponds to the desired timesteps of the
@@ -4105,15 +4105,16 @@ important to keep to the correct order for the calculation of the
 individual variables, so that variables that are later calculated in the
 loop are not part of earlier calculations for other variables. The
 calculations and also the updating of the individual vectors are
-strongly based on indexing. In the current iteration (n), the values of
-the previous iteration (n-1) are exchanged with the newly calculated
-value. The formulas used in R are very similar to those in the Simile
-Model and only the syntax for if and else conditions had to be adapted.
-To calculate the compartments as in Simile, the flow rates at the end of
-each iteration are added to their corresponding variable, e.g. W[n]
-&lt;- dW[n-1] + W[n-1], and taken as the basis for the next iteration.
-After the last iteration has run, all the desired vectors can be merged
-into one data frame, which can then be used in different ways.</p>
+strongly based on indexing. In the current iteration (<code>n</code>),
+the values of the previous iteration (<code>n-1</code>) are exchanged
+with the newly calculated value. The formulas used in R are very similar
+to those in the Simile Model and only the syntax for if and else
+conditions had to be adapted. To calculate the compartments as in
+Simile, the flow rates at the end of each iteration are added to their
+corresponding variable, e.g. <code>W[n] &lt;- dW[n-1] + W[n-1]</code>,
+and taken as the basis for the next iteration. After the last iteration
+has run, all the desired vectors can be merged into one data frame,
+which can then be used in different ways.</p>
 <p>The implementation of the fractions directly from the table is one of
 the main differences to the simile models. The mechanism behind this can
 be divided into two steps. In the first step, the relevant fractions are
@@ -4122,8 +4123,8 @@ the model function where the desired crop can be specified. The default
 input is wheat, for which we have also drawn the fractions in Simile. In
 the second step, the data from the filtered table is used to interpolate
 a value that corresponds to the respective DVS value. For this, the
-approx() function was a great help, as it is able to interpolate for a
-value within a dataframe.</p>
+<code>approx()</code> function was a great help, as it is able to
+interpolate for a value within a dataframe.</p>
 <p>Our goal for the R models was to achieve results as close as possible
 to our simile results. In principle, the visible calculations of both
 models are the same, but nevertheless there are slight deviations. One
@@ -4132,14 +4133,15 @@ Even if the same numbers are displayed on the surface, it is possible
 that other numbers are calculated internally.</p>
 <p>We have written a very simple function with which we can examine the
 results of two data frames and their difference. We found that the
-difference was smallest for the no_partitioning model and increased for
-the more complex models. A second source for differences between the
-models are also slight inaccuracies when drawing in Simile. To examine
-the differences between the two models more closely, there would have
-been another possibility. Simile allows to export the drawn graphs as a
-.csv table. These could then have been used as input in the R model for
-the fractions. The R model would still have interpolated from this data,
-but anomalies in the drawn data would have been represented.</p>
+difference was smallest for the <code>no_partitioning</code> model and
+increased for the more complex models. A second source for differences
+between the models are also slight inaccuracies when drawing in Simile.
+To examine the differences between the two models more closely, there
+would have been another possibility. Simile allows to export the drawn
+graphs as a .csv table. These could then have been used as input in the
+R model for the fractions. The R model would still have interpolated
+from this data, but anomalies in the drawn data would have been
+represented.</p>
 <ul>
 <li>Possible extensions
 <ul>
@@ -4154,8 +4156,8 @@ but anomalies in the drawn data would have been represented.</p>
 <h2><span class="header-section-number">3.3</span> List of
 variables</h2>
 <div class="figure" style="text-align: center">
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-add82fb0e8cb14f5824b" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-add82fb0e8cb14f5824b">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38"],["Seeding_Day","Temperature","Irradiation","T_b1","T_b2","P_T1","P_T2","dD","DVS","k","l_par","RUE","dW","W","T_b","T_e","r_l","r_g","p_l","s_new","dLAI","LAI","TRANRF","froot","fshoot","FRoot","Fleaves","Fstems","FStorageOrgans","FAll","dWRoots","dWLeaves","dWStems","dWStorageOrgans","WRoots","WLeaves","WStems","WStorageOrgans"],["Day of the year to start the simulation","Temperature from actual weather recording","Irradiation from actual weather recording","1. Base temperature (emergence-anthesis)","2. Base temperature (anthesis-maturity)","1. Thermal time requirement (emergence-anthesis)","2. Thermal time requirement (anthesis-maturity)","Rate for the development stage index","Development stage index","Radiation extinction coefficient","Intercepted PAR","Radiation use efficiency","Total growth rate","Total plant biomass","Base temperature (same as T_b1)","Effective temperature","Factor changing relative LAI growth rate depending on effective temp","Relative growth rate of LAI","Partition fraction to leaves","Specific leaf area","Rate for the leaf area index","Leaf area index","Artificial transpiration reduction factor","Modificator for FRoot under influence of TRANRF","Fraction for the above-ground organs","Fraction for the root organ","Fraction for the leaf organ","Fraction for the stem organ","Fraction for the storage organs","Fraction for all organs in sum (sanity check)","Root growth rate","Leaf growth rate","Stem growth rate","Storage organ rate","Total root biomass","Total leaf biomass","Total stem biomass","Total storage organ biomass"],["DOY","&lt;b0&gt;C","MJ m-2","&lt;b0&gt;C","&lt;b0&gt;C","&lt;b0&gt;C day","&lt;b0&gt;C day","-","-","-","MJ m-2 d-1","g MJ-1","g d-1","g","&lt;b0&gt;C","&lt;b0&gt;C","&lt;b0&gt;C day","m2 m-2 d-1","-","m2 g-1","m2 m-2 d-1","m2 m-2","-","-","-","-","-","-","-","-","g d-1","g d-1","g d-1","g d-1","g","g","g","g"],["100","-","-","2","5","800","850","-","0","0.7","-","3","-","10","2","-","0.009","-","0.5","0.02","-","0.12","0.3/1","-","-","-","-","-","-","-","-","-","-","-","5","3.25","1.25","0"],["All","All","All","All","All","All","All","All","All","All","All","All","All","All","All","All","All","All","no_partitioning","All","All","All","partitioning, partitioning_TRANRF","partitioning, partitioning_TRANRF","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning"],["Variable (constant)","Variable (table)","Variable (table)","Variable (constant)","Variable (constant)","Variable (constant)","Variable (constant)","Flow","Compartment","Variable (constant)","Variable (dynamic)","Variable (constant)","Flow","Compartment","Variable (constant)","Variable (dynamic)","Variable (constant)","Variable (dynamic)","Variable (constant)","Variable (constant)","Flow","Compartment","Variable (dynamic)","Variable (dynamic)","Variable (dynamic)","Variable (graph)","Variable (graph)","Variable (graph)","Variable (graph)","Variable (dynamic)","Flow","Flow","Flow","Flow","Compartment","Compartment","Compartment","Compartment"],["Expert survey","weather_dikopshof_2007.csv","weather_dikopshof_2007.csv","From lecture 2, slide 33","From lecture 2, slide 33","From lecture 2, slide 33","From lecture 2, slide 33","From lecture 2, slide 33","From lecture 2, slide 33","From lecture 3, slide 14","From lecture 3, slide 14","From lecture 3, slide 16","From lecture 3, slide 7","From lecture 3, slide 7","From lecture 2, slide 29","From lecture 2, slide 29","From lecture 3, slide 23","From lecture 3, slide 21","From lecture 3, slide 20","From lecture 3, slide 20","From lecture 3, slide 20","From lecture 3, slide 18","From lecture 6, slide 11","-","","Derived from Lintul fractios, see data/all_fractions","Derived from Lintul fractios, see data/all_fractions","Derived from Lintul fractios, see data/all_fractions","Derived from Lintul fractios, see data/all_fractions","Calculated","From lecture 5, slide 41","From lecture 5, slide 41","From lecture 5, slide 41","From lecture 5, slide 41","From lecture 5, slide 41","From lecture 5, slide 41","From lecture 5, slide 41","From lecture 5, slide 41"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Variable.name<\/th>\n      <th>Description<\/th>\n      <th>Unit<\/th>\n      <th>Value<\/th>\n      <th>Model<\/th>\n      <th>Simile.component<\/th>\n      <th>Source.Reference<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-23fbbb75763e9cf552e7" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-23fbbb75763e9cf552e7">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38"],["Seeding_Day","Temperature","Irradiation","T_b1","T_b2","P_T1","P_T2","dD","DVS","k","l_par","RUE","dW","W","T_b","T_e","r_l","r_g","p_l","s_new","dLAI","LAI","TRANRF","froot","fshoot","FRoot","Fleaves","Fstems","FStorageOrgans","FAll","dWRoots","dWLeaves","dWStems","dWStorageOrgans","WRoots","WLeaves","WStems","WStorageOrgans"],["Day of the year to start the simulation","Temperature from actual weather recording","Irradiation from actual weather recording","1. Base temperature (emergence-anthesis)","2. Base temperature (anthesis-maturity)","1. Thermal time requirement (emergence-anthesis)","2. Thermal time requirement (anthesis-maturity)","Rate for the development stage index","Development stage index","Radiation extinction coefficient","Intercepted PAR","Radiation use efficiency","Total growth rate","Total plant biomass","Base temperature (same as T_b1)","Effective temperature","Factor changing relative LAI growth rate depending on effective temp","Relative growth rate of LAI","Partition fraction to leaves","Specific leaf area","Rate for the leaf area index","Leaf area index","Artificial transpiration reduction factor","Modificator for FRoot under influence of TRANRF","Fraction for the above-ground organs","Fraction for the root organ","Fraction for the leaf organ","Fraction for the stem organ","Fraction for the storage organs","Fraction for all organs in sum (sanity check)","Root growth rate","Leaf growth rate","Stem growth rate","Storage organ rate","Total root biomass","Total leaf biomass","Total stem biomass","Total storage organ biomass"],["DOY","&lt;b0&gt;C","MJ m-2","&lt;b0&gt;C","&lt;b0&gt;C","&lt;b0&gt;C day","&lt;b0&gt;C day","-","-","-","MJ m-2 d-1","g MJ-1","g d-1","g","&lt;b0&gt;C","&lt;b0&gt;C","&lt;b0&gt;C day","m2 m-2 d-1","-","m2 g-1","m2 m-2 d-1","m2 m-2","-","-","-","-","-","-","-","-","g d-1","g d-1","g d-1","g d-1","g","g","g","g"],["100","-","-","2","5","800","850","-","0","0.7","-","3","-","10","2","-","0.009","-","0.5","0.02","-","0.12","0.3/1","-","-","-","-","-","-","-","-","-","-","-","5","3.25","1.25","0"],["All","All","All","All","All","All","All","All","All","All","All","All","All","All","All","All","All","All","no_partitioning","All","All","All","partitioning, partitioning_TRANRF","partitioning, partitioning_TRANRF","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning","partitioning"],["Variable (constant)","Variable (table)","Variable (table)","Variable (constant)","Variable (constant)","Variable (constant)","Variable (constant)","Flow","Compartment","Variable (constant)","Variable (dynamic)","Variable (constant)","Flow","Compartment","Variable (constant)","Variable (dynamic)","Variable (constant)","Variable (dynamic)","Variable (constant)","Variable (constant)","Flow","Compartment","Variable (dynamic)","Variable (dynamic)","Variable (dynamic)","Variable (graph)","Variable (graph)","Variable (graph)","Variable (graph)","Variable (dynamic)","Flow","Flow","Flow","Flow","Compartment","Compartment","Compartment","Compartment"],["Expert survey","weather_dikopshof_2007.csv","weather_dikopshof_2007.csv","From lecture 2, slide 33","From lecture 2, slide 33","From lecture 2, slide 33","From lecture 2, slide 33","From lecture 2, slide 33","From lecture 2, slide 33","From lecture 3, slide 14","From lecture 3, slide 14","From lecture 3, slide 16","From lecture 3, slide 7","From lecture 3, slide 7","From lecture 2, slide 29","From lecture 2, slide 29","From lecture 3, slide 23","From lecture 3, slide 21","From lecture 3, slide 20","From lecture 3, slide 20","From lecture 3, slide 20","From lecture 3, slide 18","From lecture 6, slide 11","-","-","Derived from Lintul fractios, see data/all_fractions","Derived from Lintul fractios, see data/all_fractions","Derived from Lintul fractios, see data/all_fractions","Derived from Lintul fractios, see data/all_fractions","Calculated","From lecture 5, slide 41","From lecture 5, slide 41","From lecture 5, slide 41","From lecture 5, slide 41","From lecture 5, slide 41","From lecture 5, slide 41","From lecture 5, slide 41","From lecture 5, slide 41"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Variable.name<\/th>\n      <th>Description<\/th>\n      <th>Unit<\/th>\n      <th>Value<\/th>\n      <th>Model<\/th>\n      <th>Simile.component<\/th>\n      <th>Source.Reference<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figure: Here is a really important caption.
 </p>
