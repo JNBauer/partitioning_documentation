@@ -104,9 +104,9 @@ We have written a very simple function with which we can examine the results of 
 
 ## List of variables
 
-```{r, echo=FALSE, fig.align="center", fig.cap="Figure: Here is a really important caption."}
+```{r, echo=FALSE, fig.align="center", fig.cap="List of the variables used in the models."}
 variable_table <- read.csv2("data/variable_table.csv")
-datatable(variable_table, class = 'cell-border stripe')
+datatable(variable_table, class = 'cell-border stripe', rownames = FALSE, colnames = c('Variable name', 'Description', 'Unit', 'Value', 'Model', 'Simile component', 'Source/Reference'))
 ```
 
 
