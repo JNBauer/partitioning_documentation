@@ -13,7 +13,10 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
 require(DT)
+require(dplyr)
+require(ggplot2)
 ```
 
 # Introduction
@@ -118,10 +121,45 @@ Wie haben die Lintul Menschen diese Fractions bekommen?
 
 ## Without Partitioning
 
+
 Julian
 
 ## Partitioning
 
+```{r, echo=FALSE, fig.align="left", fig.cap="Results table for the partitioning simulation."}
+partitioning_table <- read.csv2("results/R_partitioning_wheat.csv")
+partitioning_table <- partitioning_table[,-1]
+datatable(
+  partitioning_table,
+  filter = 'top',
+  extensions = "FixedColumns",
+  options = list(
+    pageLength=10,
+    scrollX='400px',
+    fixedColumns = list(leftColumns = 2)),
+  class = 'cell-border stripe', rownames = FALSE)
+
+```
+\
+.\
+\
+.\
+\
+.\
+\
+.\
+\
+.\
+\
+
+
+```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Visualisation for the partitioning simulation."}
+source("scripts/plotting.R")
+partitioning <- csv_melt_formatter("results/R_partitioning_wheat.csv","Wheat")
+#partitioning
+partitioning_plot <- area_plotter(partitioning[[1]],partitioning[[2]])
+partitioning_plot
+```
 Julian
 
 ## Partitioning Other Crops
