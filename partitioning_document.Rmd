@@ -26,7 +26,7 @@ require(ggplot2)
 Partitioning refers to the distribution of certain resources, f. ex macro- and micro nutrients, between the plant organs (these comprise plant roots, leaves, stems and the plants storage organs). This distribution is highly dependent and correlating with the plants development stage (*DVS*) which differs uniquely depending on the crop species. If a resource is highly accessible and not taken up completely by the plant organs, the resource can be reserved and later be relocated again.
 
 
-```{r, echo=FALSE, fig.align="center", fig.cap="Figure: Visualisation for ressource allocation and organ partitioning."}
+```{r, echo=FALSE, fig.align="center", fig.cap="Figure: Visualisation for ressource allocation and organ partitioning"}
 knitr::include_graphics("partitioning_visual.jpg")
 ```
 
@@ -107,7 +107,7 @@ We have written a very simple function with which we can examine the results of 
 
 ## List of variables
 
-```{r, echo=FALSE, fig.align="center", fig.cap="List of the variables used in the models."}
+```{r, echo=FALSE, fig.align="center", fig.cap="List of the variables used in the models"}
 variable_table <- read.csv2("data/variable_table.csv")
 datatable(variable_table, class = 'cell-border stripe', rownames = FALSE, colnames = c('Variable name', 'Description', 'Unit', 'Value', 'Model', 'Simile component', 'Source/Reference'))
 ```
@@ -126,7 +126,7 @@ Julian
 
 ## Partitioning
 
-```{r, echo=FALSE, fig.align="left", fig.cap="Results table for the partitioning simulation."}
+```{r, echo=FALSE, fig.align="left", fig.cap="Results table for the partitioning simulation"}
 partitioning_table <- read.csv2("results/R_partitioning_wheat.csv")
 partitioning_table <- partitioning_table[,-1]
 datatable(
@@ -153,7 +153,7 @@ datatable(
 \
 
 
-```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Visualisation for the partitioning simulation."}
+```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Visualisation for the partitioning simulation"}
 source("scripts/plotting.R")
 partitioning <- csv_melt_formatter("results/R_partitioning_wheat.csv","Wheat")
 #partitioning
@@ -168,7 +168,263 @@ Julian
 
 ## Partitioning TRANRF
 
-Sophia
+```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Comparison of fractions under drought stress"}
+df1<- read.csv2("results/R_partitioning_TRANRF_wheat.csv")
+df_sub <- df1[, c("DVS","FStorageOrgans","FStems","FLeaves","FRoot","FAll")]
+
+dataT<-df_sub
+
+title <- "Partitioning + TRANRF"
+
+plotfilename <- title
+
+dataT <- dataT[1:125,]
+dataT$DVS <- as.numeric(dataT$DVS)
+dataT$FRoot <- as.numeric(dataT$FRoot)
+dataT$FLeaves <- as.numeric(dataT$FLeaves)
+dataT$FStems <- as.numeric(dataT$FStems)
+dataT$FStorageOrgans <- as.numeric(dataT$FStorageOrgans)
+
+dvsStorageOrgans <- select(dataT, DVS, FStorageOrgans) %>% 
+  mutate(newcol="Storage Organs") %>% 
+  rename(Fraction=FStorageOrgans)
+dvsStems <- select(dataT, DVS, FStems) %>% 
+  mutate(newcol="Stems") %>% 
+  rename(Fraction=FStems)
+dvsLeaves <- select(dataT, DVS, FLeaves) %>% 
+  mutate(newcol="Leaves") %>% 
+  rename(Fraction=FLeaves)
+dvsRoots <- select(dataT, DVS, FRoot) %>% 
+  mutate(newcol="Roots") %>% 
+  rename(Fraction=FRoot)
+
+dataT <- rbind(dvsRoots,dvsLeaves, dvsStems, dvsStorageOrgans) %>% 
+  rename(Organ=newcol) %>% 
+  mutate(Organ = factor(Organ, levels = c("Storage Organs", "Stems", "Leaves", "Roots")))
+
+dataT <- dataT[order(dataT$DVS),]
+#dataT
+
+####
+
+df2<- read.csv2("results/R_partitioning_wheat.csv")
+
+df_sub2 <- df2[, c("DVS","FStorageOrgans","FStems","FLeaves","FRoot","FAll")]
+
+dataO<-df_sub2
+
+titleO <- "Partitioning"
+
+plotfilenameO <- titleO
+
+dataO <- dataO[1:125,]
+dataO$DVS <- as.numeric(dataO$DVS)
+dataO$FRoot <- as.numeric(dataO$FRoot)
+dataO$FLeaves <- as.numeric(dataO$FLeaves)
+dataO$FStems <- as.numeric(dataO$FStems)
+dataO$FStorageOrgans <- as.numeric(dataO$FStorageOrgans)
+
+dvsStorageOrgans <- select(dataO, DVS, FStorageOrgans) %>% 
+  mutate(newcol="Storage Organs") %>% 
+  rename(Fraction=FStorageOrgans)
+dvsStems <- select(dataO, DVS, FStems) %>% 
+  mutate(newcol="Stems") %>% 
+  rename(Fraction=FStems)
+dvsLeaves <- select(dataO, DVS, FLeaves) %>% 
+  mutate(newcol="Leaves") %>% 
+  rename(Fraction=FLeaves)
+dvsRoots <- select(dataO, DVS, FRoot) %>% 
+  mutate(newcol="Roots") %>% 
+  rename(Fraction=FRoot)
+
+dataO <- rbind(dvsRoots,dvsLeaves, dvsStems, dvsStorageOrgans) %>% 
+  rename(Organ=newcol) %>% 
+  mutate(Organ = factor(Organ, levels = c("Storage Organs", "Stems", "Leaves", "Roots")))
+
+dataO <- dataO[order(dataO$DVS),]
+#dataO
+#####
+
+dataO <- mutate(dataO,crop=plotfilenameO)
+dataT <- mutate(dataT,crop=plotfilename)
+
+data <- rbind(dataT,dataO)
+
+
+#all.equal(dataT,dataO)
+
+#ggplot(df, aes(DVS, Fraction, group=Organ, color = Organ)) +
+
+
+fractions<-ggplot(data= data, aes(DVS, Fraction, group=Organ, color = Organ)) + #geom_line(data2, mapping = aes(x=DVS, y=LAI/scaleFactor, color="LAI"),size=4, linetype=6) +
+  geom_line(linewidth=4) +
+  labs(y="Fractions")+
+  facet_wrap(vars(crop))+
+  theme(#axis.title.x = element_text(size = 30), 
+        #axis.text.x = element_text(size = 20),
+        #axis.title.y.left=element_text(color="black", size= 30),
+        #axis.text.y.left=element_text(color="black", size= 20),
+        #axis.title.y.right=element_text(color="black", size= 30, angle = 90, 'vjust = -0.05'),
+        #axis.text.y.right=element_text(color="black", size= 20),
+        legend.key = element_rect(colour = "transparent", fill = "white"),
+        legend.title = element_blank(),
+        #legend.text = element_text(size=20),
+        #legend.title = element_text(size = 25),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_rect(color = "black", fill = NA),
+        #panel.border = element_blank(),
+        strip.background = element_rect(color="black",fill="white"),
+        #strip.text = element_text(size=20),
+        legend.position = "bottom",
+        panel.background = element_blank(),
+        axis.line = element_line(colour = "black"))+
+  scale_color_manual(values= c("goldenrod1","green4","yellowgreen","red4"),
+                     labels=c("Storage Organs","Stems","Leaves","Roots"))
+
+fractions
+```
+
+## Root/ Shoot Ratio
+```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Alteration of Root/Shoot Ratio under drought"}
+library(patchwork)
+
+partitioning_table <- read.csv2("results/R_partitioning_wheat.csv")
+partitioning_biomass <- select(partitioning_table,c("DVS","W"))
+partitioning_TRANRF_table <- read.csv2("results/R_partitioning_TRANRF_wheat.csv")
+partitioning_TRANRF_biomass <- select(partitioning_TRANRF_table,c("W"))
+partitioning_TRANRF_biomass<- rename(partitioning_TRANRF_biomass, W_TRANRF=W)
+
+df_bio<-cbind(partitioning_biomass, partitioning_TRANRF_biomass)
+
+drought<-ggplot(data= df_bio, aes(x=DVS)) +
+  geom_line(aes(y= W, color="1"), linewidth=4)+
+  geom_line(aes(y = W_TRANRF, color = "2"), linewidth=4)+ #geom_point(aes(data, colour=XYZ)) #------>legend
+  labs(y="Biomass [g/m²]",
+       title = "Total Biomass")+
+  theme(#axis.title.x = element_text(size = 30), 
+        #axis.text.x = element_text(size = 20),
+        #axis.title.y.left=element_text(size= 30),
+        #axis.text.y.left=element_text(size= 20),
+        #plot.title = element_text(hjust = 0.5, size=20),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_rect(colour = "black", fill = NA),
+        #panel.border = element_blank(),
+        panel.background = element_blank(),
+        legend.title = element_blank(),
+        #legend.text = element_text(size=20),
+        legend.key = element_rect(colour = "transparent", fill = "white"),
+        legend.position = "none",
+        axis.line = element_line(colour = "black"))+
+  scale_color_manual(values= c("slategray3","orangered4"),
+                     labels=c("Control","Drought"))
+#drought
+
+df_R_S<- data.frame(
+  group= (c("Control","Drought")),
+  ratio= c(0.15, 0.28)
+)
+ratio <- ggplot(df_R_S, aes(x = group, y = ratio, color = group)) + #f + geom_col(aes(color = dose), fill = "white") +
+  geom_bar(stat = "identity", fill="white", size=4, alpha=1) +
+  labs(y = "R/S",
+       title = "Root/ Shoot Ratio") +
+  theme(axis.title.x = element_blank(),
+        #axis.text.x = element_text(size = 30),
+        #axis.title.y.right = element_text(size= 30, angle = 90),
+        #axis.text.y.right = element_text(size= 20),
+        #plot.title = element_text(hjust = 0.5, size=20),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_rect(colour = "black", fill = NA),
+        panel.background = element_blank(),
+        legend.title = element_blank(),
+        #legend.text = element_text(size=20),
+        legend.key = element_rect(colour = "transparent", fill = "white"),
+        axis.line = element_line(colour = "black")) +
+  scale_color_manual(values=c("slategray3","orangered4"), labels=c("Control","Drought"))+
+  scale_y_continuous(position = "right")
+
+#ratio
+
+both<- drought+ratio
+both
+```
+
+## Harvest Index
+```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Harvest Index comparison"}
+df_st<- data.frame(
+  cat= (c("BM","GM","BM","GM")),
+  con= (c("Control","Control","Drought","Drought")),
+  val= c(1065.6, 1313, 603.53, 342.12)
+)     
+
+#head(df_st)
+
+plot_st<- ggplot(df_st, aes(fill=cat, y= val, x= con))+
+  geom_bar(position= "stack", stat = "identity")+
+  labs(y="[g/m²]",
+       title = "Biomass")+
+  theme(axis.title.x = element_blank(), 
+        #axis.text.x = element_text(size = 30),
+        #axis.title.y.left=element_text(size= 30),
+        #axis.text.y.left=element_text(size= 20),
+        #plot.title = element_text(hjust = 0.5, size=20),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_rect(colour = "black", fill = NA),
+        #panel.border = element_blank(),
+        panel.background = element_blank(),
+        legend.title = element_blank(),
+        #legend.text = element_text(size=20),
+        legend.key = element_rect(colour = "transparent", fill = "white"),
+        legend.position="bottom",
+        axis.line = element_line(colour = "black"))+
+  scale_fill_manual(values=c("slategray3","goldenrod1"),
+                    labels=c("Total Biomass","Grain Biomass"))
+
+#plot_st
+
+
+#####################################
+
+df_HI<- data.frame(
+  con= (c("Control","Drought")),
+  val= c(0.55, 0.36)
+)     
+
+#head(df_HI)
+
+
+
+plot_HI<- ggplot(df_HI, aes(x=con, y=val, color = con)) +
+  geom_bar(stat = "identity", fill="white", size=4, alpha=1) +
+  #ylim(0, 1)+
+  labs(y = "HI",
+       title = "Harvest Index") +
+  theme(axis.title.x = element_blank(),
+        #axis.text.x = element_text(size = 30),
+        #axis.title.y.right = element_text(size= 30, angle = 90, vjust = -0.05),
+        #axis.text.y.right = element_text(size= 20),
+        #plot.title = element_text(hjust = 0.5, size=20),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_rect(colour = "black", fill = NA),
+        panel.background = element_blank(),
+        legend.title = element_blank(),
+        #legend.text = element_text(size=20),
+        legend.key = element_rect(colour = "transparent", fill = "white"),
+        legend.position="bottom",
+        axis.line = element_line(colour = "black")) +
+  scale_color_manual(values=c("slategray3","orangered4"), labels=c("HI Control","HI Drought"))+
+  scale_y_continuous(position = "right", limits = c(0, 1))
+
+#plot_HI
+
+
+st_HI<- plot_st+plot_HI
+st_HI
+```
 
 # Simplification of the Model 
 The influence of drought stress was modeled with the TRANRF. Due to simplification, the TRANRF was a fixed value and not calculated by formula. This had the impact, that growth and partitioning was effected by drought, as long as the TRANRF was applied. After this, growth and partitioning is acting normal again (please see results).
