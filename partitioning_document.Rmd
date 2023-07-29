@@ -13,6 +13,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+require(DT)
 ```
 
 # Introduction
@@ -22,8 +23,8 @@ knitr::opts_chunk$set(echo = TRUE)
 Partitioning refers to the distribution of certain resources, f. ex macro- and micro nutrients, between the plant organs (these comprise plant roots, leaves, stems and the plants storage organs). This distribution is highly dependent and correlating with the plants development stage (*DVS*) which differs uniquely depending on the crop species. If a resource is highly accessible and not taken up completely by the plant organs, the resource can be reserved and later be relocated again.
 
 
-```{r}
-knitr::include_graphics("Partioning Visual.jpg")
+```{r, echo=FALSE, fig.align="center", fig.cap="Figure: Visualisation for ressource allocation and organ partitioning."}
+knitr::include_graphics("partitioning_visual.jpg")
 ```
 
 ## Motivation/ Background
@@ -103,7 +104,11 @@ We have written a very simple function with which we can examine the results of 
 
 ## List of variables
 
-Julian
+```{r, echo=FALSE, fig.align="center", fig.cap="Figure: Here is a really important caption."}
+variable_table <- read.csv2("data/variable_table.csv")
+datatable(variable_table, class = 'cell-border stripe')
+```
+
 
 ## Partitioning Fractions
 

@@ -1,0 +1,39 @@
+Variable name;Description;Unit;Value;Model;Simile component;Source/Reference
+Seeding_Day;Day of the year to start the simulation;DOY;100;All;Variable (constant);Expert survey
+Temperature;Temperature from actual weather recording;°C;-;All;Variable (table);weather_dikopshof_2007.csv
+Irradiation;Irradiation from actual weather recording;MJ m-2;-;All;Variable (table);weather_dikopshof_2007.csv
+T_b1;1. Base temperature (emergence-anthesis);°C;2;All;Variable (constant);From lecture 2, slide 33
+T_b2;2. Base temperature (anthesis-maturity);°C;5;All;Variable (constant);From lecture 2, slide 33
+P_T1;1. Thermal time requirement (emergence-anthesis);°C day;800;All;Variable (constant);From lecture 2, slide 33
+P_T2;2. Thermal time requirement (anthesis-maturity);°C day;850;All;Variable (constant);From lecture 2, slide 33
+dD;Rate for the development stage index;-;-;All;Flow;From lecture 2, slide 33
+DVS;Development stage index;-;0;All;Compartment;From lecture 2, slide 33
+k;Radiation extinction coefficient;-;0.7;All;Variable (constant);From lecture 3, slide 14
+l_par;Intercepted PAR;MJ m-2 d-1;-;All;Variable (dynamic);From lecture 3, slide 14
+RUE;Radiation use efficiency;g MJ-1;3;All;Variable (constant);From lecture 3, slide 16
+dW;Total growth rate;g d-1;-;All;Flow;From lecture 3, slide 7
+W;Total plant biomass;g;10;All;Compartment;From lecture 3, slide 7
+T_b;Base temperature (same as T_b1);°C;2;All;Variable (constant);From lecture 2, slide 29
+T_e;Effective temperature;°C;-;All;Variable (dynamic);From lecture 2, slide 29
+r_l;Factor changing relative LAI growth rate depending on effective temp;°C day;0.009;All;Variable (constant);From lecture 3, slide 23
+r_g;Relative growth rate of LAI;m2 m-2 d-1;-;All;Variable (dynamic);From lecture 3, slide 21
+p_l;Partition fraction to leaves;-;0.5;no_partitioning;Variable (constant);From lecture 3, slide 20
+s_new;Specific leaf area;m2 g-1;0.02;All;Variable (constant);From lecture 3, slide 20
+dLAI;Rate for the leaf area index;m2 m-2 d-1;-;All;Flow;From lecture 3, slide 20
+LAI;Leaf area index;m2 m-2;0.12;All;Compartment;From lecture 3, slide 18
+TRANRF;Artificial transpiration reduction factor;-;0.3/1;partitioning, partitioning_TRANRF;Variable (dynamic);From lecture 6, slide 11
+froot;Modificator for FRoot under influence of TRANRF;-;-;partitioning, partitioning_TRANRF;Variable (dynamic);-
+fshoot;Fraction for the above-ground organs;-;-;partitioning;Variable (dynamic);-
+FRoot;Fraction for the root organ;-;-;partitioning;Variable (graph);Derived from Lintul fractios, see data/all_fractions
+Fleaves;Fraction for the leaf organ;-;-;partitioning;Variable (graph);Derived from Lintul fractios, see data/all_fractions
+Fstems;Fraction for the stem organ;-;-;partitioning;Variable (graph);Derived from Lintul fractios, see data/all_fractions
+FStorageOrgans;Fraction for the storage organs;-;-;partitioning;Variable (graph);Derived from Lintul fractios, see data/all_fractions
+FAll;Fraction for all organs in sum (sanity check);-;-;partitioning;Variable (dynamic);Calculated
+dWRoots;Root growth rate;g d-1;-;partitioning;Flow;From lecture 5, slide 41
+dWLeaves;Leaf growth rate;g d-1;-;partitioning;Flow;From lecture 5, slide 41
+dWStems;Stem growth rate;g d-1;-;partitioning;Flow;From lecture 5, slide 41
+dWStorageOrgans;Storage organ rate;g d-1;-;partitioning;Flow;From lecture 5, slide 41
+WRoots;Total root biomass;g;5;partitioning;Compartment;From lecture 5, slide 41
+WLeaves;Total leaf biomass;g;3.25;partitioning;Compartment;From lecture 5, slide 41
+WStems;Total stem biomass;g;1.25;partitioning;Compartment;From lecture 5, slide 41
+WStorageOrgans;Total storage organ biomass;g;0;partitioning;Compartment;From lecture 5, slide 41
