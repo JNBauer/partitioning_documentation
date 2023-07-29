@@ -1,5 +1,5 @@
 no_partitioning <- function(weather_data = "weather_dikopshof_2007.csv",
-                            save_csv = TRUE,
+                            save_csv = FALSE,
                             ET = 125) {
   
   require(dplyr)
