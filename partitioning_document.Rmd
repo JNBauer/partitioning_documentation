@@ -52,43 +52,88 @@ We develop a simplified partitioning model to calculate and visualize optimal al
 ## Simile
 
 ### Basemodel
-A simplified growth and LAI model was used as the base model, where after LAI reaching a value of 0.7, half of the growth rate (dW) is added to the fraction of the leaves. 
-dLAI= if LAI< 0.7 then r_g*LAI else s_new*p_l*dW
+
+A simplified growth and LAI model was used as the base model, where after LAI reaching a value of 0.7, half of the growth rate (dW) is added to the fraction of the leaves.
+
+$$dD=
+    \begin{cases}
+    r_g\ *\ LAI\ &\   if\ LAI\ <\ 0.7\\ 
+    s_{new}\ *\ p_l\ *\ dW &\ if\ LAI\ >\ 0.7\\
+    \end{cases}$$
 
 ### DVS
-Due to the fact our model is build for spring wheat in temperate climate, we set the seeding date to 100, the beginning of April and used weather data of Dikopshof, west Germany, from 2007.  This gave realistic mean values for temperature and irradiation. 
+
+Due to the fact our model is build for spring wheat in temperate climate, we set the seeding date to 100, the beginning of April and used weather data of Dikopshof, west Germany, from 2007.  This gave realistic mean values for temperature and irradiation.\
+
 In Addition, our model was dependent on the development state index (DVS) of the plant. The DVS is the ratio of the daily average temperature (Temperature) minus the base temperature (T_b) to the thermal time requirement (P_T) at a given point in the development. The base temperature and the thermal time requirement can differ between the phase before and after anthesis.
-dD= if DVS < 1 then max(0,(Temperature-T_b1)/P_T1) else max(0,(Temperature-T_b2)/P_T2)
-In order to stop growth rate, after maturity is reached, dW is set to 0 after DVS =2. 
-dW= if DVS <= 2 then RUE*I_par else 0
+
+$$dD=
+    \begin{cases}
+    max\left (\frac{(Temperature-T_{b1})}{P_{T1}}\right ) &\   if\ DVS\ <\ 1\\ 
+    max \left ( \frac{(Temperature-T_{b2})}{P_{T2}} \right ) &\ if\ DVS\ >\ 1\\
+    \end{cases}$$
+
+In order to stop growth rate after maturity is reached, dW is set to 0 after DVS = 2. 
+
+$$dD=
+    \begin{cases}
+    RUE\ *\ I_{par}\ &\   if\ DVS\ \leq\ 2\\ 
+    0\\
+    \end{cases}$$
 
 ### Partitioning
+
 To add partitioning of the different plant growth organs, the fraction table for wheat was used. For each organ (Froot, FStems, FLeaves, FStorageOragan) a variable is created and multiplied by a sketched graph.  The curve consists of the defined points by the table and the interpolated points in the area between them.
 It is known that all fractions together always add up to one and every fraction is not negative. 
-FRoot + FStems + Fleaves + FStorageOrgans = 1 
-In order to ensure that, the variable FShoot is created, to divide the fractions into underground and aboveground organs.
-FShoot= 1-Froot
+
+$FRoot\ +\ FStems\ +\ FLeaves\ +\ FStorageOrgans\ =\ 1$
+
+In order to ensure that, the variable FShoot is created, to divide the fractions into below ground and above ground organs.
+
+$FShoot= 1\ -\ Froot$
+
 This is how to use only three graphs and calculate the fourth fraction from the other three.
-FStorageOrgans= FShoot - (FStems + FLeaves))
-To calculate the weight of the different organs (WLeaves, WStems, WRoots,WStoragOrgans) the growth rate dW is multiplied by the Fraction of each organ 
-dWRoots= dW * Froot
-dWLeaves = dW* FLeaves 
-dWStems= dw* FStems
-dWStorageOrgans= dw* FStorageOrgans
+
+$FStorageOrgans= FShoot\ -\ (FStems\ +\ FLeaves)$
+
+To calculate the weight of the different organs (WLeaves, WStems, WRoots,WStoragOrgans) the growth rate dW is multiplied by the Fraction of each organ.
+
+$dWRoots= dW\ *\ Froot$\
+
+$dWLeaves = dW\ *\ FLeaves$\
+
+$dWStems= dw\ *\ FStems$\
+
+$dWStorageOrgans= dw\ *\ FStorageOrgans$
 
 ### Leaf Senescence
-In this model, senescence is built into the LAI, where the LAI decreases from DVS 1. Also the LAI reacts on change of the growth rate of the Leaves Fraction. 
-dLAI= if LAI< 0.7 and DVS <0.3 then r_g*LAI elseif DVS <1 then  s_new*dWLeaves else s_new * dWLeaves - 0.03*LAI
-In general, exchanging the constant leaf partitioning p_l with the simulated leaf growth rate, allows the model a 
-more realistic reflection on the growth behavior of the plant. 
+
+In this model, senescence is built into the LAI, where the LAI decreases from DVS 1. Also the LAI reacts on change of the growth rate of the Leaves Fraction.
+
+$$dLAI=
+    \begin{cases}
+    r_g\ *\ LAI\ &\ if\ LAI\ <\ 0.7\ und\ DVS\ <\ 0.3\\ 
+    s_{new}\ *\ dWLeaves\  &\ if\ DVS\ <\ 1\\
+    s_new\ *\ dWLeaves\ -\ 0.03\ *\ LAI  &\ if\ DVS\ >\ 1\\
+    \end{cases}$$
+
+In general, exchanging the constant leaf partitioning p_l with the simulated leaf growth rate, allows the model a more realistic reflection on the growth behavior of the plant. 
 
 ### Modifying root partitioning due to drought
-To show how partitioning behaves under drought stress, we add the variable TRANRF. The TRANRF is set to a fixed value of 0.3 for a certain period during development. 
-TRANRF= if 0.2 < DVS and DVS < 1.2 then 0.3 else 1
-The TRANRF has an impact on the total growth rate dW, as well as the root Fraction. For this, the variable froot was added which is leading to an increasement of the root fraction and a decreasement of the other organ fractions. 
-froot= max(1,1/(TRANRF+0.5))
 
-###Model run and evaluation
+To show how partitioning behaves under drought stress, we add the variable TRANRF. The TRANRF is set to a fixed value of 0.3 for a certain period during development. 
+
+$$dD=
+    \begin{cases}
+    0.3\ &\   if\ 0.2\ <\ DVS\ <\ 1.2\\ 
+    0\\
+    \end{cases}$$
+
+The TRANRF has an impact on the total growth rate dW, as well as the root Fraction. For this, the variable froot was added which is leading to an increasement of the root fraction and a decreasement of the other organ fractions.
+
+$froot=\ max\left ( 1,\frac{1}{(TRANRF+0.5)} \right)$
+
+### Model run and evaluation
 The base model was compared to the model with implemented partitioning. Also the model was transferred to other crop species. The partitioning behavior was investigated under normal conditions, as well as under drought stress.
 
 
