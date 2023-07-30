@@ -72,3 +72,22 @@ area_plotter <- function(data,data2) {
   #ggsave(paste(plotfilename,".svg"),area_plot, width = 35, height = 35, units = "cm", dpi = 500)
   return(area_plot)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
