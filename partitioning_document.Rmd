@@ -55,7 +55,7 @@ We develop a simplified partitioning model to calculate and visualize optimal al
 
 A simplified growth and LAI model was used as the base model, where after LAI reaching a value of 0.7, half of the growth rate (dW) is added to the fraction of the leaves.\
 \
-$$dD=
+$$dW=
     \begin{cases}
     r_g\ *\ LAI\ &\   if\ LAI\ <\ 0.7\\ 
     s_{new}\ *\ p_l\ *\ dW &\ if\ LAI\ >\ 0.7\\
