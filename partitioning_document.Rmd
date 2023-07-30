@@ -170,6 +170,8 @@ Wie haben die Lintul Menschen diese Fractions bekommen?
 
 ## Without Partitioning
 
+Our initial model did not include partitioning, but only a constant factor for a proportion that is diverted to the leaves. This factor (p_l) is 0.5 in our model, which means that 50% of the growth rate (d_W) contributes directly to the calculation of the LAI during the complete development period. This means that leaves are not well represented in the model, because leaf growth is normally strong in the early stages and then weakens during further growth. During resource storage, all available resources are then shifted to the storage organs in most plants. At the same time, senescence also sets in, which reduces the biomass of the leaves. All these processes are not correctly taken into account if a constant factor is used for leaf partitioning. The model does include a decrease in LAI after anthesis, but senescence is strongly inhibited by the further consistent input of the growth rate into the LAI rate. As a result, the LAI only decreases slightly to a value that is unrealistically high for the end of the vegetation period.
+
 ```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Visualisation for the partitioning simulation"}
 source("scripts/plotting.R")
 no_partitioning_data <- read.csv2("results/R_no_partitioning.csv")
@@ -189,11 +191,10 @@ datatable(
   filter = 'top',
   extensions = "FixedColumns",
   options = list(
-    pageLength=10,
+    pageLength=4,
     scrollX='400px',
     fixedColumns = list(leftColumns = 2)),
   class = 'cell-border stripe', rownames = FALSE)
-
 ```
 
 ```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Visualisation for the partitioning simulation"}
@@ -219,9 +220,6 @@ source("scripts/plotting.R")
 
 partitioning_wheat <- read.csv2("results/R_partitioning_wheat.csv")
 partitioning_wheat <- melt_formatter(partitioning_wheat,"Wheat")
-nrow(partitioning_wheat[[1]])
-nrow(cassava[[1]])
-nrow(tobacco[[1]])
 cassava <- partitioning(crop_name = "Cassava")
 cassava <- melt_formatter(cassava,"Cassava")
 tobacco <- partitioning(crop_name = "tobacco")
@@ -230,6 +228,8 @@ tobacco <- melt_formatter(tobacco,"tobacco")
 data <- rbind(partitioning_wheat[[1]], cassava[[1]])#, tobacco[[1]])
 data2 <- rbind(partitioning_wheat[[2]], cassava[[2]])#, tobacco[[2]])
 name_list <- c(partitioning_wheat[[3]], cassava[[3]])#, tobacco[[3]])
+
+data <- data[order(data$DVS),]
 
 plot <- area_plotter(data,data2,name_list)
 plot
