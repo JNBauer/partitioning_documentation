@@ -55,7 +55,7 @@ We develop a simplified partitioning model to calculate and visualize optimal al
 
 A simplified growth and LAI model was used as the base model, where after LAI reaching a value of 0.7, half of the growth rate (dW) is added to the fraction of the leaves.\
 \
-$$dW=
+$$dLAI=
     \begin{cases}
     r_g\ *\ LAI\ &\   if\ LAI\ <\ 0.7\\ 
     s_{new}\ *\ p_l\ *\ dW &\ if\ LAI\ >\ 0.7\\
@@ -75,7 +75,7 @@ $$dD=
 \
 In order to stop growth rate after maturity is reached, dW is set to 0 after DVS = 2.\
 \
-$$dD=
+$$dW=
     \begin{cases}
     RUE\ *\ I_{par}\ &\   if\ DVS\ \leq\ 2\\ 
     0\\
@@ -121,15 +121,15 @@ In general, exchanging the constant leaf partitioning p_l with the simulated lea
 
 ### Modifying root partitioning due to drought
 
-To show how partitioning behaves under drought stress, we add the variable TRANRF. The TRANRF is set to a fixed value of 0.3 for a certain period during development.\ 
+To show how partitioning behaves under drought stress, we add the variable TRANRF. The TRANRF is set to a fixed value of 0.3 between DVS 0.2 - 1.2. Otherwise the TRANRF is set back to 1 again, indicating no drought stress.\ 
 \
-$$dD=
+$$TRANRF=
     \begin{cases}
     0.3\ &\   if\ 0.2\ <\ DVS\ <\ 1.2\\ 
-    0\\
+    1\\
     \end{cases}$$\
 \
-The TRANRF has an impact on the total growth rate dW, as well as the root Fraction. For this, the variable froot was added which is leading to an increasement of the root fraction and a decreasement of the other organ fractions.\
+The variable TRANRF is multiplied with the total biomass and has an impact on the root Fraction as well. For this, the variable froot was added which is leading to an increasement of the root fraction and a decreasement of the other organ fractions.\
 \
 $froot=\ max\left ( 1,\frac{1}{(TRANRF+0.5)} \right)$\
 
