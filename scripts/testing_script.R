@@ -40,6 +40,58 @@ df <- data.frame(DVS=df1$DVS,
                  Leaves_Diff=Leaves_Diff,
                  Stem_Diff=Stem_Diff,
                  Organ_Diff=Organ_Diff)
-df
+
+dataO <- df[1:125,]
+# dataO$DVS <- as.numeric(dataO$DVS)
+# dataO$FRoot <- as.numeric(dataO$FRoot)
+# dataO$FLeaves <- as.numeric(dataO$FLeaves)
+# dataO$FStems <- as.numeric(dataO$FStems)
+# dataO$FStorageOrgans <- as.numeric(dataO$FStorageOrgans)
+
+dvsStorageOrgans <- select(dataO, DVS, Organ_Diff) %>% 
+  mutate(newcol="Storage Organs") %>% 
+  rename(Fraction=Organ_Diff)
+dvsStems <- select(dataO, DVS, Stem_Diff) %>% 
+  mutate(newcol="Stems") %>% 
+  rename(Fraction=Stem_Diff)
+dvsLeaves <- select(dataO, DVS, Leaves_Diff) %>% 
+  mutate(newcol="Leaves") %>% 
+  rename(Fraction=Leaves_Diff)
+dvsRoots <- select(dataO, DVS, Root_Diff) %>% 
+  mutate(newcol="Roots") %>% 
+  rename(Fraction=Root_Diff)
+
+dataO <- rbind(dvsRoots,dvsLeaves, dvsStems, dvsStorageOrgans) %>% 
+  rename(Organ=newcol) %>% 
+  mutate(Organ = factor(Organ, levels = c("Storage Organs", "Stems", "Leaves", "Roots")))
+
+dataO <- dataO[order(dataO$DVS),]
 
 
+fractions<-ggplot(data= dataO, aes(DVS, Fraction, group=Organ, color = Organ)) + #geom_line(data2, mapping = aes(x=DVS, y=LAI/scaleFactor, color="LAI"),size=4, linetype=6) +
+  geom_line(linewidth=4) +
+  labs(y="Fractions")+
+  #facet_wrap(vars(crop))+
+  theme(#axis.title.x = element_text(size = 30), 
+    #axis.text.x = element_text(size = 20),
+    #axis.title.y.left=element_text(color="black", size= 30),
+    #axis.text.y.left=element_text(color="black", size= 20),
+    #axis.title.y.right=element_text(color="black", size= 30, angle = 90, 'vjust = -0.05'),
+    #axis.text.y.right=element_text(color="black", size= 20),
+    legend.key = element_rect(colour = "transparent", fill = "white"),
+    legend.title = element_blank(),
+    #legend.text = element_text(size=20),
+    #legend.title = element_text(size = 25),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_rect(color = "black", fill = NA),
+    #panel.border = element_blank(),
+    strip.background = element_rect(color="black",fill="white"),
+    #strip.text = element_text(size=20),
+    legend.position = "bottom",
+    panel.background = element_blank(),
+    axis.line = element_line(colour = "black"))+
+  scale_color_manual(values= c("goldenrod1","green4","yellowgreen","red4"),
+                     labels=c("Storage Organs","Stems","Leaves","Roots"))
+
+fractions
