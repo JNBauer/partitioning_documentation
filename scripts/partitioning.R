@@ -1,14 +1,12 @@
-partitioning <- function(weather_data = "weather_dikopshof_2007.csv",
+partitioning <- function(weather_data = "data/weather_dikopshof_2007.csv",
                                crop_name = "wheat",
-                               save_csv = TRUE,
+                               save_csv = FALSE,
                                ET = 125) {
   
   require(dplyr)
-  setwd(dir = "data")
-  fractions <- read.csv2("all_fractions_.csv")
+  fractions <- read.csv2("data/all_fractions_.csv")
   fractions <- filter(fractions,Crop==crop_name)
   weather <- read.csv(weather_data)
-  setwd("..")
 
   Root_fractions <- filter(fractions,Organ=="Roots")
   Stems_fractions <- filter(fractions,Organ=="Stems")

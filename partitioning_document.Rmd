@@ -32,7 +32,7 @@ Partitioning refers to the distribution of certain resources, f. ex macro- and m
 
 
 ```{r, echo=FALSE, fig.align="center", fig.cap="Figure: Visualisation for ressource allocation and organ partitioning"}
-knitr::include_graphics("partitioning_visual.jpg")
+knitr::include_graphics("images/partitioning_visual.jpg")
 ```
 
 ## Motivation/ Background
@@ -170,50 +170,70 @@ Wie haben die Lintul Menschen diese Fractions bekommen?
 
 ## Without Partitioning
 
+Our initial model did not include partitioning, but only a constant factor for a proportion that is diverted to the leaves. This factor (p_l) is 0.5 in our model, which means that 50% of the growth rate (d_W) contributes directly to the calculation of the LAI during the complete development period. This means that leaves are not well represented in the model, because leaf growth is normally strong in the early stages and then weakens during further growth. During resource storage, all available resources are then shifted to the storage organs in most plants. At the same time, senescence also sets in, which reduces the biomass of the leaves. All these processes are not correctly taken into account if a constant factor is used for leaf partitioning. The model does include a decrease in LAI after anthesis, but senescence is strongly inhibited by the further consistent input of the growth rate into the LAI rate. As a result, the LAI only decreases slightly to a value that is unrealistically high for the end of the vegetation period.
 
-Julian
+```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Visualisation for the partitioning simulation"}
+source("scripts/plotting.R")
+no_partitioning_data <- read.csv2("results/R_no_partitioning.csv")
+no_partitioning <- melt_formatter(no_partitioning_data,"Wheat")
+
+no_partitioning_plot <- area_plotter(no_partitioning[[1]],no_partitioning[[2]], no_partitioning[[3]])
+no_partitioning_plot
+```
 
 ## Partitioning
 
 ```{r, echo=FALSE, fig.align="left", fig.cap="Results table for the partitioning simulation"}
-partitioning_table <- read.csv2("results/R_partitioning_wheat.csv")
-partitioning_table <- partitioning_table[,-1]
+partitioning_wheat <- read.csv2("results/R_partitioning_wheat.csv")
+partitioning_wheat <- partitioning_wheat[,-1]
 datatable(
-  partitioning_table,
+  partitioning_wheat,
   filter = 'top',
   extensions = "FixedColumns",
   options = list(
-    pageLength=10,
+    pageLength=4,
     scrollX='400px',
     fixedColumns = list(leftColumns = 2)),
   class = 'cell-border stripe', rownames = FALSE)
-
 ```
-\
-.\
-\
-.\
-\
-.\
-\
-.\
-\
-.\
-\
-
 
 ```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Visualisation for the partitioning simulation"}
 source("scripts/plotting.R")
-partitioning <- csv_melt_formatter("results/R_partitioning_wheat.csv","Wheat")
-#partitioning
-partitioning_plot <- area_plotter(partitioning[[1]],partitioning[[2]])
+partitioning_wheat <- read.csv2("results/R_partitioning_wheat.csv")
+partitioning_wheat <- melt_formatter(partitioning_wheat,"Wheat")
+
+partitioning_plot <- area_plotter(partitioning_wheat[[1]],partitioning_wheat[[2]], partitioning_wheat[[3]])
 partitioning_plot
 ```
-Julian
+
 
 ## Partitioning Other Crops
 
-Julian
+```{r, echo=FALSE, fig.align="center", fig.cap="Figure: Comparison of different crop simulated with the wheat model"}
+knitr::include_graphics("images/comparison_other_crops.svg")
+```
+
+
+```{r, eval=FALSE, echo=FALSE}
+source("scripts/partitioning.R")
+source("scripts/plotting.R")
+
+partitioning_wheat <- read.csv2("results/R_partitioning_wheat.csv")
+partitioning_wheat <- melt_formatter(partitioning_wheat,"Wheat")
+cassava <- partitioning(crop_name = "Cassava")
+cassava <- melt_formatter(cassava,"Cassava")
+tobacco <- partitioning(crop_name = "tobacco")
+tobacco <- melt_formatter(tobacco,"tobacco")
+
+data <- rbind(partitioning_wheat[[1]], cassava[[1]])#, tobacco[[1]])
+data2 <- rbind(partitioning_wheat[[2]], cassava[[2]])#, tobacco[[2]])
+name_list <- c(partitioning_wheat[[3]], cassava[[3]])#, tobacco[[3]])
+
+data <- data[order(data$DVS),]
+
+plot <- area_plotter(data,data2,name_list)
+plot
+```
 
 ## Partitioning TRANRF
 
