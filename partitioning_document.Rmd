@@ -167,8 +167,15 @@ Wie haben die Lintul Menschen diese Fractions bekommen?
 # Results
 
 ## Without Partitioning
-
-Our initial model did not include partitioning, but only a constant factor for a proportion that is diverted to the leaves. This factor (p_l) is 0.5 in our model, which means that 50% of the growth rate (d_W) contributes directly to the calculation of the LAI during the complete development period. This means that leaves are not well represented in the model, because leaf growth is normally strong in the early stages and then weakens during further growth. During resource storage, all available resources are then shifted to the storage organs in most plants. At the same time, senescence also sets in, which reduces the biomass of the leaves. All these processes are not correctly taken into account if a constant factor is used for leaf partitioning. The model does include a decrease in LAI after anthesis, but senescence is strongly inhibited by the further consistent input of the growth rate into the LAI rate. As a result, the LAI only decreases slightly to a value that is unrealistically high for the end of the vegetation period.
+Our initial model did not include partitioning, but only a constant factor for a proportion that is diverted to the leaves.
+This factor (p_l) is 0.5 in our model, which means that 50% of the growth rate (d_W) contributes directly to the calculation of the LAI during the complete development period.
+This means that leaves are not well represented in the model, because leaf growth is normally strong in the early stages and then weakens during further growth.
+During resource storage, all available resources are then shifted to the storage organs in most plants.
+At the same time, senescence also sets in, which reduces the biomass of the leaves.
+All these processes are not correctly taken into account if a constant factor is used for leaf partitioning.
+The model does include a decrease in LAI after anthesis, but senescence is strongly inhibited by the further consistent input of the growth rate into the LAI rate.
+As a result, the LAI only decreases slightly to a value that is unrealistically high for the end of the vegetation period.\
+\
 
 ```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Visualisation for the partitioning simulation"}
 source("scripts/plotting.R")
@@ -178,9 +185,25 @@ no_partitioning <- melt_formatter(no_partitioning_data,"Wheat")
 no_partitioning_plot <- area_plotter(no_partitioning[[1]],no_partitioning[[2]], no_partitioning[[3]])
 no_partitioning_plot
 ```
+\
 
 ## Partitioning
-
+Partitioning allows a more realistic modelling of plant growth, especially biomass and LAI.
+The area plot also shows well the distribution of biomass to the organs.
+At the beginning of growth, resources are mainly channelled into the leaves and roots.
+In the further course and particularly during shooting, more resources flow into the shoot.
+After anthesis, growth and organ partitioning changes once again.
+All available resources are shifted to the storage organs and the growth of the other organs stagnates.
+This process continues until the end of the growing season or a DVS of 2.\
+\
+The modelling of the LAI is also improved by partitioning.
+Instead of the constant leaf partitioning factor from the previous model, the newly introduced dynamic leaf growth rate can be used to calculate the LAI.
+This is more in line with the natural processes within the plant.
+This means that leaf growth stops after flowering and the LAI decreases with the onset of senescence.
+Because senescence reduces the LAI uninhibitedly, the model reaches a low value for the LAI at the end of the growth period.
+This is a major difference compared to the LAI development of the previous model, where the LAI does not drop towards the end of the simulation\
+\
+\
 ```{r, echo=FALSE, fig.align="left", fig.cap="Results table for the partitioning simulation"}
 partitioning_wheat <- read.csv2("results/R_partitioning_wheat.csv")
 partitioning_wheat <- partitioning_wheat[,-1]
@@ -194,7 +217,7 @@ datatable(
     fixedColumns = list(leftColumns = 2)),
   class = 'cell-border stripe', rownames = FALSE)
 ```
-
+\
 ```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Visualisation for the partitioning simulation"}
 source("scripts/plotting.R")
 partitioning_wheat <- read.csv2("results/R_partitioning_wheat.csv")
@@ -203,6 +226,10 @@ partitioning_wheat <- melt_formatter(partitioning_wheat,"Wheat")
 partitioning_plot <- area_plotter(partitioning_wheat[[1]],partitioning_wheat[[2]], partitioning_wheat[[3]])
 partitioning_plot
 ```
+<<<<<<< HEAD
+=======
+\
+>>>>>>> fb9b0b83af18bee46050bac482c08e8a5cb449cf
 
 ## Partitioning Other Crops
 
