@@ -54,7 +54,7 @@ We develop a simplified partitioning model to calculate and visualize optimal al
 
 ### Basemodel
 
-A simplified growth and LAI model was used as the base model, where after LAI reaching a value of 0.7, half of the growth rate (dW) is added to the fraction of the leaves.\
+We used a simplified growth and LAI model, as the base model, where after LAI reaching a value of 0.7, half of the growth rate (dW) is added to the fraction of the leaves.\
 \
 $$dLAI=
     \begin{cases}
@@ -84,7 +84,7 @@ $$dW=
 
 ### Partitioning
 
-To add partitioning of the different plant growth organs, the fraction table for wheat was used. For each organ (Froot, FStems, FLeaves, FStorageOragan) a variable is created and multiplied by a sketched graph. The curve consists of the defined points by the table and the interpolated points in the area between them. It is known that all fractions together always add up to one and every fraction is not negative.\
+To add partitioning of the different plant growth organs, we used the fraction table for wheat. For each organ (Froot, FStems, FLeaves, FStorageOragan) a variable is created and multiplied by a sketched graph. The curve consists of the defined points by the table and the interpolated points in the area between them. It is known that all fractions together always add up to one and every fraction is not negative.\
 \
 $FRoot\ +\ FStems\ +\ FLeaves\ +\ FStorageOrgans\ =\ 1$\
 \
@@ -92,7 +92,7 @@ In order to ensure that, the variable FShoot is created, to divide the fractions
 \
 $FShoot= 1\ -\ Froot$\
 \
-This is how to use only three graphs and calculate the fourth fraction from the other three.\
+This is how we use only three graphs and calculate the fourth fraction from the other three.\
 \
 $FStorageOrgans= FShoot\ -\ (FStems\ +\ FLeaves)$\
 \
@@ -131,10 +131,8 @@ $$TRANRF=
 The variable TRANRF is multiplied with the total biomass and has an impact on the root Fraction as well. For this, the variable froot was added which is leading to an increasement of the root fraction and a decreasement of the other organ fractions.\
 \
 $froot=\ max\left ( 1,\frac{1}{(TRANRF+0.5)} \right)$\
+\
 
-### Model run and evaluation
-
-The base model was compared to the model with implemented partitioning. Also the model was transferred to other crop species. The partitioning behavior was investigated under normal conditions, as well as under drought stress.\
 
 ## R
 
@@ -159,6 +157,14 @@ To examine the differences between the two models more closely, there would have
 Simile allows to export the drawn graphs as a .csv table.
 These could then have been used as input in the R model for the fractions.
 The R model would still have interpolated from this data, but anomalies from the original fractions in the drawn data would have been represented better.
+
+## Model run and evaluation
+
+The base model was compared to the model with implemented partitioning. Also the model was transferred to other crop species. The partitioning behavior was investigated under normal conditions, as well as under drought stress.\
+
+## Simplification of the Model
+
+We modeled the influence of drought stress with the TRANRF. Due to simplification, the TRANRF was a fixed value and not calculated by formula. This had the impact, that growth and partitioning was effected by drought, as long as the TRANRF was applied. After this, growth and partitioning is acting normal again (please see results).\
 
 ## List of variables
 
@@ -479,9 +485,12 @@ Drought stress has the well known effect, that this characteristic  partitioning
 \
 
 
-## Root/ Shoot Ratio
+## Root to Shoot Ratio
 
-```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Alteration of Root/Shoot Ratio under drought"}
+Therefore drought stress affects the root to shoot ratio, as we see in Figure X. On the one hand the total biomass is decreasing significantly under drought stress from about 2500 g  per square meter, down to less than 1000g per square meter. On the other hand the ratio of root to shoot increase by almost twice as much from 0.15 under normal condition to 0.28 under drought condition. So in general our results show, that the plant is preventing water loss by reducing the above ground biomass and put more energy into the roots to improve water uptake.\
+\
+
+```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Alteration of Root to shoot ratio under drought"}
 library(patchwork)
 
 partitioning_table <- read.csv2("results/R_partitioning_wheat.csv")
@@ -547,6 +556,10 @@ both
 ```
 
 ## Harvest Index
+Next to the altered ratio of above ground organs to roots, drought stress also has an impact on the relationship from storage organs to the total biomass.
+This we can see in Figure X, were the ratio of grain biomass to total biomass, known as the Harvest Index is shown. 
+While under normal conditions the grain biomass takes up more than half of the total biomass, reaching a Harvest Index of 0.55, under drought conditions the grain biomass takes up only about one third of the total biomass, reaching a Harvest Index of 0.35. 
+
 
 ```{r, echo=FALSE, message=FALSE, fig.align="left", fig.cap="Harvest Index comparison"}
 df_st<- data.frame(
@@ -622,28 +635,25 @@ st_HI<- plot_st+plot_HI
 st_HI
 ```
 
-# Simplification of the Model
 
-The influence of drought stress was modeled with the TRANRF. Due to simplification, the TRANRF was a fixed value and not calculated by formula. This had the impact, that growth and partitioning was effected by drought, as long as the TRANRF was applied. After this, growth and partitioning is acting normal again (please see results).\
 
 # Conclusion
 
-Partitioning of biomass the process by which plants distribute their energy amongst their different organs. Our partitioning model reveals how spring wheat allocates its biomass into leaves, roots, stems and storage organs. Therefore it gives a more accurate representation of the growth behavior of the plant, in contrast to the base model, where a fixed fraction (p_l) is given only into the leaves. This results in a slightly decreasing LAI, due to remaining constant leaf partitioning factor (p_l) and also an increased biomass. Our model in contrast allows more realistic LAI values with about 6 at time of flowering (DVS=1).\
+Partitioning of biomass is the process by which plants distribute their energy amongst their different organs. Our partitioning model reveals how spring wheat allocates its biomass into leaves, roots, stems and storage organs. Therefore it gives a more accurate representation of the growth behavior of the plant, in contrast to the base model, where a fixed fraction (p_l) is given only into the leaves. This results in a slightly decreasing LAI, due to remaining constant leaf partitioning factor (p_l) and also an increased biomass. Our model in contrast allows more realistic LAI values with about 6 at time of flowering (DVS=1).\
 \
-Furthermore the partitioning model gives an impression of how much energy the plant invests into the respective organs at different times of development. Whereas until the time of flowering (DVS\<1) the roots and the leaves fraction are finally decreasing, the fraction of the stems are increasing. This is possibly due to the stem elongation. After flowering is reached, all the energy is put into the storage organs.\
+Furthermore our partitioning model gives an impression of how much energy the plant invests into the respective organs at different times of development. Whereas until the time of flowering (DVS\<1) the roots and the leaves fraction are finally decreasing, the fraction of the stems are increasing. This is possibly due to the stem elongation. After flowering is reached, all the energy is put into the storage organs.\
 \
-Under optimal partitioning theory, plants preferentially allocate biomass to acquire the resource that most limits growth. Here, drought stress was used as a limiting factor. Plants show certain changes in their growth patterns and physiological process to cope with the effects of drought stress. Our partitioning model showed an influence on the total biomass, as well as changing the ratio of the individual organs to each other. Whereas the total biomass and within the Harvest Index are reduced, the fraction of the roots are increasing. This leads to a higher root to shoot ratio under drought conditions. Such a strategy enables the plant to improve water absorption capacity and lower the biomass above ground to reduce transpiration and water loss.\
+Under optimal partitioning theory, plants preferentially allocate biomass to acquire the resource that most limits growth. Here, drought stress was used as a limiting factor. Plants show certain changes in their growth patterns and physiological process to cope with the effect of drought stress. In most cases, plants react on stress, with reduced growth and reproduction, keeping the balance between growth and stress response. Our partitioning model showed an influence on the total biomass, as well as changing the ratio of the individual organs to each other. Whereas the total biomass and within the Harvest Index are reduced, the fraction of the roots are increased. This leads to a higher root to shoot ratio under drought conditions. Such a strategy enables the plant to improve water absorption capacity and lower the biomass above ground to reduce transpiration and water loss.\
 \
-Nevertheless, the partitioning model has a certain weaknesses. Thus, the drought stress is only taken into account when TRANRF is applied at the specific period during development. This has the effect that earlier drought stress (DVS\<1) does not concern later development (DVS\>1), after setting TRANRF back to 1. The storage organs develop normal and showing only a lower biomass due to lower amount of leaves and stems. Eventually the model is suitable to show certain trends in how the plant changes its partitioning under drought stress.\
-\
-The partitioning model was created for spring wheat in temperate climate. So with constant variables, care must be taken when applying the model to different species. If variables such as temperature or thermal time requirement are not adjusted, the results will vary greatly depending on the crop species.
+Nevertheless, our partitioning model has a certain weaknesses. Thus, the drought stress is only taken into account when TRANRF is applied at the specific period during development. This has the effect that earlier drought stress (DVS\<1) does not concern later development (DVS\>1), after setting TRANRF back to 1. The storage organs develop normal and showing only a lower biomass due to lower amount of leaves and stems. Eventually our model is suitable to show certain trends in how the plant changes its partitioning under drought stress.\
+We created the partitioning model for spring wheat in temperate climate. So with constant variables, care must be taken when applying the model to different species. If variables such as temperature or thermal time requirement are not adjusted, the results will vary greatly depending on the crop species.
 
 # Outlook
 
-The process of partitioning depends on a complex interaction of multiple factors, such as abiotic, biotic stress, phytohormones or genotype. In order to obtain more realistic results, additional factors could be included in the model.\
+The process of partitioning depends on a complex interaction of multiple factors, such as abiotic, biotic stress, phytohormones or genotype. In order to obtain more realistic results, we could include additional factors to the model.\
 \
 One major improvement would be the calculation of the TRANRF, rather than taking a fixed and constant value. Therefore the potential transpirative demand (PTRAN) as well as actual transpiration (TRAN) can be quantified. Since water availability of a crop depends on Rooting depth and density, as well as maximum root uptake rate and soil hydraulic conductivity.\
 \
 Also interesting would be to see how the plant allocates various nutrients into different organs. The seasonal patterns of nitrogen uptake could be considered, as nitrogen stress can have an impact on allocation patterns of plants.\
 \
-In addition, the model can be adapt specifically to various crops and their growing demands. So the different location factors, such as temperature or irradiation can be adapted. According to annual and perennial plants it is crucial to adjust the vegetation period.
+In addition, we can adapt the model specifically to various crops and their growing demands. So we can take the different location factors, such as temperature or irradiation into account. According to annual and perennial plants it is crucial to adjust the vegetation period.
