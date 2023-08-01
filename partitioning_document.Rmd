@@ -29,7 +29,7 @@ require(ggplot2)
 # Introduction
 
 ## Partitioning
-Partitioning refers to the distribution of certain resources, e.g macro- and micro nutrients, between the plant organs (these comprise plant roots, leaves, stems and the plants storage organs). This distribution is highly dependent with the plants development stage (*DVS*) which differs uniquely depending on the crop species. If a resource is highly accessible and not taken up completely by the plant organs, the resource can be reserved and later be relocated again.
+Partitioning refers to the distribution of certain resources, e.g macro- and micro nutrients, between the plant organs (roots, leaves, stems, storage organs). This distribution dependents on the plant development stage index (*DVS*), which differs uniquely depending on the crop species. If a resource is highly accessible and not taken up completely by the plant organs, the resource can be reserved and later be relocated again.
 
 ```{r, echo=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 1__ _Visualisation for ressource allocation and organ partitioning_</span>"}
 knitr::include_graphics("images/partitioning_visual.jpg")
@@ -39,9 +39,9 @@ knitr::include_graphics("images/partitioning_visual.jpg")
 ## Motivation/ Background
 Climate change leads to changing environmental conditions for crops, those crops will respond to those changes with shifting biomass partitioning patters to obtain the most limiting resource, in e.g months of droughts.
 
-Furthermore, the ability to predict biomass partitioning patterns of crops in direct competition with one another has the potential to be a valuable tool in predicting the outcome of crop-weed competition. In general plants facing limited resource supply belowground will shift biomass partitioning towards more root and less shoot production whereas plants competing for light will shift towards more shoot and less root production.
+Furthermore, the ability to predict biomass partitioning patterns of crops in direct competition with one another has the potential to be a valuable tool in predicting the outcome of crop-weed competition. In general plants facing limited resource supply below ground will shift biomass partitioning towards more root and less shoot production whereas plants competing for light will shift towards more shoot and less root production.
 
-Understanding partitioning patterns in crop production is an important goal to maximize a crops growth rate which leads to maximized biomass and therefore maximized yield.\
+Understanding partitioning patterns in crop production is an important goal to enlarge crop growth, leading to a maximized biomass and therefore higher yield.\
 \
 
 # Goal
@@ -53,7 +53,7 @@ We develop a simplified partitioning model to calculate and visualize optimal al
 ## Simile
 
 ### Basemodel
-We used a simplified growth and LAI model, as the base model, where after LAI reaching a value of 0.7, half of the growth rate (dW) is added to the fraction of the leaves.\
+We implemented the model in Similie (Version 6.12). We used a simplified growth and LAI model, as the base model, where after LAI reaching a value of 0.7, half of the growth rate (dW) is added to the fraction of the leaves.\
 \
 $$dLAI=
     \begin{cases}
@@ -182,7 +182,7 @@ The model does include a decrease in LAI after anthesis, but senescence is stron
 As a result, the LAI only decreases slightly to a value that is unrealistically high for the end of the vegetation period.\
 \
 
-```{r, echo=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 1__ _Visualisation for the partitioning simulation_</span>"}
+```{r, echo=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 2__ _Visualisation for the partitioning simulation_</span>"}
 source("scripts/plotting.R")
 no_partitioning_data <- read.csv2("results/R_no_partitioning.csv")
 no_partitioning <- melt_formatter(no_partitioning_data,"Wheat")
@@ -209,7 +209,7 @@ Because senescence reduces the LAI uninhibitedly, the model reaches a low value 
 This is a major difference compared to the LAI development of the previous model, where the LAI does not drop towards the end of the simulation\
 \
 \
-```{r, echo=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>Table 1__ _Results table for the partitioning simulation_</span>"}
+```{r, echo=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Table 2__ _Results table for the partitioning simulation_</span>"}
 partitioning_wheat <- read.csv2("results/R_partitioning_wheat.csv")
 partitioning_wheat <- partitioning_wheat[,-1]
 datatable(
@@ -224,7 +224,7 @@ datatable(
 ```
 \
 
-```{r, echo=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 1__ _Visualisation for the partitioning simulation_</span>"}
+```{r, echo=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 3__ _Visualisation for the partitioning simulation_</span>"}
 source("scripts/plotting.R")
 partitioning_wheat <- read.csv2("results/R_partitioning_wheat.csv")
 partitioning_wheat <- melt_formatter(partitioning_wheat,"Wheat")
@@ -249,7 +249,7 @@ In the case of crops such as wheat or grain maize, the ears are of interest, whi
 How exactly the storage organs are defined and when a distinction is made between storage organ and stem in the case of sugar cane is not directly apparent from the table.
 In this case for example, resources are distributed to all organs except the storage organs until flowering, and after a DVS of 1 available resources are exclusively  directed to roots and storage organs.
 
-```{r, echo=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 1__ _Comparison of different crop simulated with the wheat model_</span>"}
+```{r, echo=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 4__ _Comparison of different crop simulated with the wheat model_</span>"}
 knitr::include_graphics("images/comparison_other_crops.svg")
 ```
 \
@@ -279,7 +279,7 @@ plot
 ## Partitioning TRANRF
 Plants react to drought stress with, among other things, reduced growth and altered biomass allocation. This can be seen in the results of our partitioning model under the influence of drought stress.
 
-```{r, echo=FALSE, message=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 1__ _Comparison of fractions under drought stress_</span>"}
+```{r, echo=FALSE, message=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 5__ _Comparison of fractions under drought stress_</span>"}
 df1<- read.csv2("results/R_partitioning_TRANRF_wheat.csv")
 df_sub <- df1[, c("DVS","FStorageOrgans","FStems","FLeaves","FRoot","FAll")]
 
@@ -397,7 +397,7 @@ fractions
 ```
 \
 
-```{r, echo=FALSE, message=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 1__ _Difference of fractions from normal to stressed conditions_</span>"}
+```{r, echo=FALSE, message=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 6__ _Difference of fractions from normal to stressed conditions_</span>"}
 df1 <- read.csv2("results/R_partitioning_TRANRF_wheat.csv")
 df2 <- read.csv2("results/R_partitioning_wheat.csv")
 
@@ -484,7 +484,7 @@ Drought stress has the well known effect, that this characteristic  partitioning
 Therefore drought stress affects the root to shoot ratio, as we see in Figure X. On the one hand the total biomass is decreasing significantly under drought stress from about 2500 g  per square meter, down to less than 1000g per square meter. On the other hand the ratio of root to shoot increase by almost twice as much from 0.15 under normal condition to 0.28 under drought condition. So in general our results show, that the plant is preventing water loss by reducing the above ground biomass and put more energy into the roots to improve water uptake.\
 \
 
-```{r, echo=FALSE, message=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 1__ _Alteration of Root to shoot ratio under drought_</span>"}
+```{r, echo=FALSE, message=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 7__ _Alteration of Root to shoot ratio under drought_</span>"}
 
 library(patchwork)
 
@@ -556,7 +556,7 @@ Next to the altered ratio of above ground organs to roots, drought stress also h
 This we can see in Figure X, were the ratio of grain biomass to total biomass, known as the Harvest Index is shown. 
 While under normal conditions the grain biomass takes up more than half of the total biomass, reaching a Harvest Index of 0.55, under drought conditions the grain biomass takes up only about one third of the total biomass, reaching a Harvest Index of 0.35. 
 
-```{r, echo=FALSE, message=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 1__ _Harvest Index comparison_</span>"}
+```{r, echo=FALSE, message=FALSE, fig.align="center", fig.cap="<span style='color: grey;'>__Figure 8__ _Harvest Index comparison_</span>"}
 df_st<- data.frame(
   cat= (c("BM","GM","BM","GM")),
   con= (c("Control","Control","Drought","Drought")),
