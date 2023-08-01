@@ -46,7 +46,7 @@ area_plotter <- function(data,data2, crop_list) {
   if (length(unique(data$Organ)) > 1) {
     color_list = c("goldenrod1","green4","yellowgreen","red4")
   } else {
-    color_list = "lightblue"
+    color_list = "slategray3"
   }
   
   scaleFactor <- 6/2300
