@@ -102,9 +102,9 @@ $dWRoots= dW\ *\ Froot$\
 
 $dWLeaves = dW\ *\ FLeaves$\
 
-$dWStems= dw\ *\ FStems$\
+$dWStems= dW\ *\ FStems$\
 
-$dWStorageOrgans= dw\ *\ FStorageOrgans$\
+$dWStorageOrgans= dW\ *\ FStorageOrgans$\
 
 ### Leaf Senescence
 
@@ -114,7 +114,7 @@ $$dLAI=
     \begin{cases}
     r_g\ *\ LAI\ &\ if\ LAI\ <\ 0.7\ und\ DVS\ <\ 0.3\\ 
     s_{new}\ *\ dWLeaves\  &\ if\ DVS\ <\ 1\\
-    s_new\ *\ dWLeaves\ -\ 0.03\ *\ LAI  &\ if\ DVS\ >\ 1\\
+    s_{new}\ *\ dWLeaves\ -\ 0.03\ *\ LAI  &\ if\ DVS\ >\ 1\\
     \end{cases}$$\
 \
 In general, exchanging the constant leaf partitioning p_l with the simulated leaf growth rate, allows the model a more realistic reflection on the growth behavior of the plant.\
