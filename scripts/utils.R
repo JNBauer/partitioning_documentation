@@ -1,5 +1,4 @@
 df_comp <- function(df1,df2) {
-  require(ggplot2)
   len_df <- min(nrow(df1),nrow(df2))
   df1 <- df1[1:len_df,]
   df2 <- df2[1:len_df,]
@@ -13,14 +12,6 @@ df_comp <- function(df1,df2) {
                    W1=df1$W,
                    W2=df2$W,
                    Diff_W=compW)
-  ggplot(df, aes(x=DVS,y=Diff_LAI)) +
-    geom_line() +
-    ggtitle("LAI Diff")
-  
-  ggplot(df, aes(x=DVS,y=Diff_W)) +
-    geom_line() +
-    ggtitle("W Diff")
-  
   return(df)
 }
 

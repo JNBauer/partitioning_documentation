@@ -1,4 +1,4 @@
-partitioning_TRANRF_model <- function(weather_data = "weather_dikopshof_2007.csv",
+partitioning_TRANRF <- function(weather_data = "weather_dikopshof_2007.csv",
                                       TRANRF_section = c(0.3,1.1),
                                       crop_name = "wheat",
                                       save_csv = FALSE,
