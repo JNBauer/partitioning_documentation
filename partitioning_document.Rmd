@@ -154,6 +154,10 @@ The R model would still have interpolated from this data, but anomalies from the
 
 ## Model run and evaluation
 The base model was compared to the model with implemented partitioning. Also the model was transferred to other crop species. The partitioning behavior was investigated under normal conditions, as well as under drought stress.\
+\
+The `Simile` model was implemented in `Simile` version v6.12p9 teaching. 64-bit.\
+\
+The `R` model was implemented in `R` version 4.2.2 "Innocent and Trusting".\
 
 ## Simplification of the Model
 We modeled the influence of drought stress with the TRANRF. Due to simplification, the TRANRF was a fixed value and not calculated by formula. This had the impact, that growth and partitioning was effected by drought, as long as the TRANRF was applied. After this, growth and partitioning is acting normal again (please see results).\
@@ -166,7 +170,13 @@ datatable(variable_table, class = 'cell-border stripe', rownames = FALSE, colnam
 \
 
 ## Partitioning Fractions
-Wie haben die Lintul Menschen diese Fractions bekommen?\
+The table with the fractions is a central part of our model.
+The data for the fractions originally come from the Lintul model and were transferred from there to our model. How the fractions were collected is not clearly documented, but there are several experimental possibilities.
+One of the most plausible approaches would be an experiment in which a number of experimental plants are measured destructively in succession.
+This would involve separating the plants into the individual organs and then weighing each of them.
+The measurement dates must be regular in order to achieve a representative mapping of the plant development.
+The resulting and averaged data can be used to derive the partitioning fractions.
+These then describe the growth patterns of the different crops.\
 \
 
 # Results
@@ -239,13 +249,17 @@ The implementation in R and the associated reading of the fractions directly fro
 The original model is designed for wheat. Variable inputs such as temperature conditions, sowing date, light extinction coefficient and especially the weather data are adapted to the phenological and cultural characteristics of wheat.
 If the model is now run with a different crop, the variable input remains unchanged.
 As a result, the actual growing conditions and phenological properties of the newly selected crop are misrepresented and the calculation itself is not completely correct.\
-Despite an incomplete calibration of the model to the different crops, it is possible to recognise rudimentary characteristic distributions of the organs in the graphs.
+Despite an incomplete calibration of the model to the different crops, it is possible to recognize rudimentary characteristic distributions of the organs in the graphs.
 There is a clear difference between monocotyledonous and dicotyledonous plants in most simulations.
 Since the model was calibrated on a monocotyledonous plant, the simulations of other monocotyledonous plants, especially the simulation of the leaves and the LAI, are more realistic than those of dicotyledonous plants, such as faba beans, tobacco or cassava.\
 In these crops, the LAI partly takes on unrealistic values.
-One reason for this could be the light extinction coefficient, which has to be adjusted for non-grass plants.
+One reason for this could be the light extinction coefficient, which has to be adjusted for non-grass plants.\
+The leaves reveal one more aspect of our model. Without drought stress, the leaves are the only organs that have a direct influence on the further progression of the model.
+This can be seen particularly well in Tobacco and Cassava.
+In these simulations, a relatively large share of the growth rate is directed to the leaves from the beginning, which quickly increase the LAI, which in turn increase the growth rate, and therefore also increase the growth rate of the leaves again.
+In reality, all organs play an important role in plant development, and by relocating resources, nutrients and assimilates can also be used by other organs in the long term.\
 The storage organs of the simulated crops can differ greatly in some cases.
-In the case of crops such as wheat or grain maize, the ears are of interest, while in the case of sugar cane the cane and in the case of cassava the tuber (metamorphosis of the stem) are harvested and further processed.
+In the case of crops such as wheat or grain maize, the ears are of interest, while in the case of sugar cane the cane and in the case of cassava the tuber (metamorphosis of the stem) are harvested and further processed. For Tobacco, where leaves are in the grower's interest, the seeds are counted as storage organs.
 How exactly the storage organs are defined and when a distinction is made between storage organ and stem in the case of sugar cane is not directly apparent from the table.
 In this case for example, resources are distributed to all organs except the storage organs until flowering, and after a DVS of 1 available resources are exclusively  directed to roots and storage organs.
 
