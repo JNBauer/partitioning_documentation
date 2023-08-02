@@ -1,6 +1,6 @@
 ---
 title: "Partitioning Documentation"
-author: "Sophia, Werner, Julian"
+author: "Sophia Schulte Kellinghaus, Werner Engelskirchen, Julian Bauer"
 date: "`r Sys.Date()`"
 output:
   html_document:
